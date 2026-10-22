@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Data Types - Concepts & Diagrams</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 1000px; margin: 0 auto; padding: 20px; background-color: #f4f7f6; }
+        h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #2980b9; margin-top: 40px; border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; }
+        code { background-color: #e8ecef; padding: 2px 5px; border-radius: 4px; font-family: Consolas, monospace; color: #c0392b; }
+        pre { background-color: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 5px; overflow-x: auto; font-family: Consolas, monospace; line-height: 1.4; }
+        
+        /* Diagram Styles */
+        .diagram { background: #fff; border: 2px dashed #bdc3c7; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center; font-family: monospace; overflow-x: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .box { display: inline-block; border: 2px solid #3498db; background: #eaf2f8; padding: 10px; margin: 5px; border-radius: 4px; }
+        .stack-heap { display: flex; justify-content: space-around; }
+        .memory-zone { border: 2px solid #7f8c8d; padding: 15px; border-radius: 5px; width: 40%; background: #fdfdfd; }
+        .memory-zone h4 { margin-top: 0; color: #7f8c8d; text-align: center; }
+        .arrow { font-size: 24px; color: #e74c3c; vertical-align: middle; margin: 0 10px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background: #fff; }
+        th, td { border: 1px solid #bdc3c7; padding: 10px; text-align: left; }
+        th { background-color: #ecf0f1; }
+    </style>
+</head>
+<body>
+
+    <h1>C# Data Types and Core Concepts (Visual Notes)</h1>
+
+    <h2>1. Value Types and Reference Types</h2>
+    <p><strong>Concept:</strong> Value types store actual data directly in memory, while reference types store a pointer (address) to where the data is kept. Value types live on the Stack; Reference types live on the Heap (with their pointer on the Stack).</p>
+    <div class="diagram stack-heap">
+        <div class="memory-zone">
+            <h4>STACK</h4>
+            <div class="box">int a = 10;</div><br>
+            <div class="box">arr1 (Pointer)</div> <span class="arrow">&rarr;</span>
+        </div>
+        <div class="memory-zone">
+            <h4>HEAP</h4>
+            <br><br>
+            <div class="box" style="background:#f9e79f; border-color:#f1c40f;">{ 1, 2, 3 } (Array Data)</div>
+        </div>
+    </div>
+
+    <h2>2. Boxing and UnBoxing</h2>
+    <p><strong>Concept:</strong> Boxing wraps a stack-based value type inside a heap-based object. Unboxing extracts it back. This causes performance overhead due to memory allocation.</p>
+    <div class="diagram">
+        <div class="box">Value (Stack)<br><code>int i = 123;</code></div>
+        <span class="arrow">&rarr; (Boxing) &rarr;</span>
+        <div class="box" style="border-radius:50%; background:#f9e79f;">Object (Heap)<br><code>object o = i;</code></div>
+        <span class="arrow">&rarr; (Unboxing) &rarr;</span>
+        <div class="box">Value (Stack)<br><code>int j = (int)o;</code></div>
+    </div>
+
+    <h2>3. Arrays (Single, Multi-Dimensional & Jagged)</h2>
+    <p><strong>Concept:</strong> Arrays are collections of similar data. 1D is a line, 2D is a grid, and Jagged is an array where elements are themselves arrays of varying lengths.</p>
+    <div class="diagram">
+        <strong>1D:</strong> <div class="box">1</div><div class="box">2</div><div class="box">3</div><br><br>
+        <strong>2D:</strong> <br>
+        <div class="box">1</div><div class="box">2</div><div class="box">3</div><br>
+        <div class="box">4</div><div class="box">5</div><div class="box">6</div><br><br>
+        <strong>Jagged:</strong> <br>
+        <div class="box">Row 0</div> <span class="arrow">&rarr;</span> <div class="box">1</div><div class="box">2</div><br>
+        <div class="box">Row 1</div> <span class="arrow">&rarr;</span> <div class="box">3</div><div class="box">4</div><div class="box">5</div>
+    </div>
+
+    <h2>4. Nullable Types</h2>
+    <p><strong>Concept:</strong> Value types cannot natively be null. Nullable types (<code>T?</code>) wrap the value type with a boolean flag indicating if it actually holds a value.</p>
+    <div class="diagram">
+        <div class="box">
+            <strong>int? x = null;</strong><br>
+            HasValue: <code>false</code><br>
+            Value: <code>[empty]</code>
+        </div>
+        <span class="arrow">vs</span>
+        <div class="box">
+            <strong>int? y = 5;</strong><br>
+            HasValue: <code>true</code><br>
+            Value: <code>5</code>
+        </div>
+    </div>
+
+    <h2>5. Implicitly Typed Variables (var) & 6. Var vs Dynamic</h2>
+    <p><strong>Concept:</strong> <code>var</code> is strongly typed but figured out by the compiler. <code>dynamic</code> bypasses compile-time checks entirely and resolves at runtime.</p>
+    <div class="diagram">
+        <div class="box"><strong>var x = 10;</strong><br><small>(Compiler locks as INT)</small></div>
+        <span class="arrow">&rarr; Compile Time &rarr;</span>
+        <div class="box"><code>int x = 10;</code></div>
+        <br><br>
+        <div class="box"><strong>dynamic y = 10;</strong><br><small>(Compiler ignores)</small></div>
+        <span class="arrow">&rarr; Run Time &rarr;</span>
+        <div class="box">Checks type in memory</div>
+    </div>
+
+    <h2>7. 'is' and 'as' Operators</h2>
+    <p><strong>Concept:</strong> Safe type casting. <code>is</code> returns a boolean. <code>as</code> performs the cast or returns null.</p>
+    <div class="diagram">
+        <div><code>if (obj is string)</code> &rarr; Returns TRUE or FALSE</div><br>
+        <div><code>string s = obj as string;</code> &rarr; Returns STRING or NULL</div>
+    </div>
+
+    <h2>8. Ref vs Out Keywords</h2>
+    <p><strong>Concept:</strong> Both pass references, not values. <code>ref</code> is for 2-way data flow (in and out). <code>out</code> is for 1-way data flow (out only).</p>
+    <div class="diagram">
+        <div class="box">Caller (Initialized)</div> <span class="arrow">&harr; (ref) &harr;</span> <div class="box">Method</div><br><br>
+        <div class="box">Caller (Uninitialized)</div> <span class="arrow">&larr; (out) &larr;</span> <div class="box">Method (Must Assign)</div>
+    </div>
+
+    <h2>9. Object Base Class & 10. Equals() vs ==</h2>
+    <p><strong>Concept:</strong> <code>==</code> checks reference identity for objects (do they point to the exact same memory?). <code>Equals()</code> is often overridden to check value identity (do they contain the same data?).</p>
+    <div class="diagram stack-heap">
+        <div class="memory-zone">
+            <div class="box">Ref A</div> <span class="arrow">&rarr;</span><br><br>
+            <div class="box">Ref B</div> <span class="arrow">&rarr;</span>
+        </div>
+        <div class="memory-zone">
+            <div class="box">Data "Hello"</div><br><br>
+            <div class="box">Data "Hello"</div>
+        </div>
+    </div>
+    <div style="text-align:center;">
+        <code>Ref A == Ref B</code> (FALSE - Different arrows)<br>
+        <code>Ref A.Equals(Ref B)</code> (TRUE - Same internal data)
+    </div>
+
+    <h2>11. String vs StringBuilder</h2>
+    <p><strong>Concept:</strong> Strings are immutable (cannot change). Concatenation creates dead memory copies. StringBuilder maintains an expanding buffer.</p>
+    <div class="diagram">
+        <strong>String (s += "a"):</strong><br>
+        <div class="box" style="background:#e74c3c; color:white;">"s" (Discarded)</div> &rarr; 
+        <div class="box" style="background:#e74c3c; color:white;">"sa" (Discarded)</div> &rarr; 
+        <div class="box" style="background:#2ecc71; color:white;">"saa" (Active)</div>
+        <br><br>
+        <strong>StringBuilder (Append):</strong><br>
+        <div class="box" style="background:#2ecc71; color:white; width:200px;">[s, a, a, _, _] (Expands)</div>
+    </div>
+
+    <h2>14. Parse() vs TryParse() vs Convert</h2>
+    <p><strong>Concept:</strong> Different ways to convert strings to numbers, with different error handling.</p>
+    <div class="diagram">
+        <div class="box">"123"</div><br><span class="arrow">&darr;</span><br>
+        <strong>Parse()</strong> &rarr; Throws Exception on "ABC" or null.<br>
+        <strong>TryParse()</strong> &rarr; Returns False on "ABC" or null (No Crash).<br>
+        <strong>Convert</strong> &rarr; Returns 0 on null, Throws Exception on "ABC".
+    </div>
+
+</body>
+</html>
+```eof
+
+I have generated the updated file with embedded conceptual explanations and visual diagrams styled using HTML and CSS. The diagrams are structured using flexbox and custom borders to simulate flowcharts, memory models, and data structures. Let me know if you'd like to refine any specific diagram further!

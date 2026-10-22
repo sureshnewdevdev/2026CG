@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Data Types and Core Concepts Notes</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 1000px; margin: 0 auto; padding: 20px; background-color: #f9f9f9; }
+        h1 { color: #2c3e50; text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #2980b9; margin-top: 30px; border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; }
+        h3 { color: #34495e; }
+        p { margin-bottom: 15px; }
+        code { background-color: #ecf0f1; padding: 2px 5px; border-radius: 4px; font-family: Consolas, monospace; color: #c0392b; }
+        pre { background-color: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 5px; overflow-x: auto; font-family: Consolas, monospace; line-height: 1.4; }
+        .note { background-color: #e8f4f8; border-left: 4px solid #3498db; padding: 10px; margin: 15px 0; }
+        ul { margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #bdc3c7; padding: 10px; text-align: left; }
+        th { background-color: #ecf0f1; }
+    </style>
+</head>
+<body>
+
+    <h1>Data Types and Core Concepts in C#</h1>
+
+    <h2>1. Value Types and Reference Types</h2>
+    <p>In C#, data types are categorized into two main groups based on how they store their values in memory: Value Types and Reference Types.</p>
+    <ul>
+        <li><strong>Value Types:</strong> Store the data directly. They are allocated on the <strong>Stack</strong>. When you assign one value type to another, a direct copy of the value is made. Examples: <code>int</code>, <code>float</code>, <code>double</code>, <code>bool</code>, <code>struct</code>, <code>enum</code>.</li>
+        <li><strong>Reference Types:</strong> Store a reference (memory address) to the actual data. The actual data is stored on the <strong>Heap</strong>. When you assign one reference type to another, both point to the same memory location. Examples: <code>string</code>, <code>class</code>, <code>array</code>, <code>delegate</code>.</li>
+    </ul>
+<pre>
+// Value Type Example
+int a = 10;
+int b = a; // b is a copy of a (b = 10)
+b = 20; // changing b does not affect a (a is still 10)
+
+// Reference Type Example
+int[] arr1 = new int[] { 1, 2, 3 };
+int[] arr2 = arr1; // arr2 points to the same array in memory
+arr2[0] = 99; // changing arr2 ALSO changes arr1 (arr1[0] is now 99)
+</pre>
+
+    <h2>2. Boxing and UnBoxing</h2>
+    <p><strong>Boxing</strong> is the process of converting a Value Type to a Reference Type (specifically, to the <code>object</code> type). It is an implicit conversion.</p>
+    <p><strong>Unboxing</strong> is the reverse process: converting a Reference Type (an <code>object</code>) back to a Value Type. It requires an explicit cast.</p>
+    <div class="note"><strong>Performance Impact:</strong> Boxing and unboxing are computationally expensive because they involve memory allocation on the heap and type checking. Avoid them in performance-critical loops.</div>
+<pre>
+int num = 123;
+object obj = num;     // Boxing (Value type -> Reference type)
+int num2 = (int)obj;  // Unboxing (Reference type -> Value type)
+</pre>
+
+    <h2>3. Arrays (Single, Multi-Dimensional & Jagged)</h2>
+    <ul>
+        <li><strong>Single Dimensional Array:</strong> A linear sequence of elements of the same type.</li>
+        <li><strong>Multi-Dimensional Array:</strong> A rectangular array with multiple dimensions (e.g., a matrix or grid). Represented by commas inside brackets <code>[,]</code>.</li>
+        <li><strong>Jagged Array:</strong> An "array of arrays" where each inner array can have a different length. Represented by multiple brackets <code>[][]</code>.</li>
+    </ul>
+<pre>
+// Single Dimensional
+int[] numbers = { 1, 2, 3, 4, 5 };
+
+// Multi-Dimensional (2D Matrix: 2 rows, 3 columns)
+int[,] matrix = new int[2, 3] {
+    { 1, 2, 3 },
+    { 4, 5, 6 }
+};
+
+// Jagged Array (Array of arrays)
+int[][] jaggedArray = new int[3][];
+jaggedArray[0] = new int[] { 1, 2 };
+jaggedArray[1] = new int[] { 3, 4, 5 };
+jaggedArray[2] = new int[] { 6 };
+</pre>
+
+    <h2>4. Nullable Types</h2>
+    <p>By default, value types cannot be assigned a <code>null</code> value. To allow a value type to store <code>null</code>, C# provides <strong>Nullable Types</strong> using the <code>?</code> modifier.</p>
+<pre>
+int? nullableInt = null; // Valid
+bool? isTrue = null;
+
+if (nullableInt.HasValue) {
+    Console.WriteLine(nullableInt.Value);
+} else {
+    Console.WriteLine("Value is null");
+}
+
+// Null-coalescing operator (??)
+int result = nullableInt ?? 0; // If nullableInt is null, return 0
+</pre>
+
+    <h2>5. Implicitly Typed Local Variables (var)</h2>
+    <p>The <code>var</code> keyword allows the compiler to infer the type of a local variable from the expression on the right side of the initialization statement. It is strongly typed; the type is locked at compile-time.</p>
+<pre>
+var name = "John"; // Compiler infers 'string'
+var age = 30;      // Compiler infers 'int'
+var list = new List&lt;string&gt;(); // Compiler infers 'List&lt;string&gt;'
+
+// age = "Thirty"; // ERROR: age is strictly an int, cannot assign a string
+</pre>
+
+    <h2>6. Var vs Dynamic</h2>
+    <table>
+        <tr>
+            <th>var</th>
+            <th>dynamic</th>
+        </tr>
+        <tr>
+            <td>Type is resolved at <strong>Compile-Time</strong>.</td>
+            <td>Type is resolved at <strong>Run-Time</strong>.</td>
+        </tr>
+        <tr>
+            <td>Early bound. Intellisense works.</td>
+            <td>Late bound. Intellisense does not work.</td>
+        </tr>
+        <tr>
+            <td>Must be initialized at declaration.</td>
+            <td>No need to initialize at declaration.</td>
+        </tr>
+    </table>
+<pre>
+var v = 10;
+// v.SomeFakeMethod(); // Compile-time error
+
+dynamic d = 10;
+d = "Now I am a string"; // Valid, type changes at runtime
+// d.SomeFakeMethod(); // Compiles fine, but throws RuntimeBinderException at runtime
+</pre>
+
+    <h2>7. 'is' and 'as' Operators</h2>
+    <p>Used for safe type checking and casting without throwing exceptions.</p>
+    <ul>
+        <li><code>is</code>: Checks if an object is compatible with a given type. Returns <code>true</code> or <code>false</code>.</li>
+        <li><code>as</code>: Attempts to cast an object to a specific type. Returns the casted object if successful, or <code>null</code> if it fails.</li>
+    </ul>
+<pre>
+object obj = "Hello World";
+
+// 'is' operator
+if (obj is string str) {
+    Console.WriteLine($"It's a string with length {str.Length}"); // Pattern matching
+}
+
+// 'as' operator
+string myStr = obj as string;
+if (myStr != null) {
+    Console.WriteLine("Cast successful");
+}
+</pre>
+
+    <h2>8. Ref vs Out Keywords</h2>
+    <p>Both are used to pass arguments by reference (so changes inside the method affect the original variable), but they have different initialization rules.</p>
+    <ul>
+        <li><code>ref</code>: The variable <strong>must be initialized</strong> before it is passed to the method. The method is not forced to modify it.</li>
+        <li><code>out</code>: The variable <strong>does not need to be initialized</strong> before passing. However, the method <strong>must assign a value</strong> to it before returning.</li>
+    </ul>
+<pre>
+void ModifyRef(ref int x) {
+    x += 10;
+}
+
+void GetMultipleValues(out int a, out string b) {
+    a = 100; // MUST assign a value
+    b = "Done"; // MUST assign a value
+}
+
+int refValue = 5; // Must initialize
+ModifyRef(ref refValue);
+
+int outInt; // Initialization not required
+string outString;
+GetMultipleValues(out outInt, out outString);
+</pre>
+
+    <h2>9. The 'object' base class in .NET</h2>
+    <p>The <code>System.Object</code> (or <code>object</code> in C#) is the ultimate base class for all data types in the .NET Framework. Every type (value type or reference type) implicitly inherits from it.</p>
+    <p>It provides basic methods like <code>ToString()</code>, <code>Equals()</code>, <code>GetHashCode()</code>, and <code>GetType()</code>.</p>
+
+    <h2>10. Equals() vs ==</h2>
+    <ul>
+        <li><code>==</code> (Operator): By default, compares object references for reference types, and values for value types. Note: For the <code>string</code> class, <code>==</code> is overloaded to compare the actual string values, not the references.</li>
+        <li><code>Equals()</code> (Method): A virtual method from the <code>object</code> class. By default, it works like <code>==</code> (reference equality), but it is heavily overridden in many classes (like <code>string</code>, custom classes) to check for value equality.</li>
+    </ul>
+<pre>
+string s1 = new string(new char[] { 'h', 'i' });
+string s2 = new string(new char[] { 'h', 'i' });
+
+Console.WriteLine(s1 == s2);      // True (overloaded for value comparison in strings)
+Console.WriteLine(s1.Equals(s2)); // True
+
+object o1 = s1;
+object o2 = s2;
+Console.WriteLine(o1 == o2);      // False (comparing memory addresses/references)
+Console.WriteLine(o1.Equals(o2)); // True (polymorphism calls overridden string.Equals)
+</pre>
+
+    <h2>11. String vs StringBuilder</h2>
+    <ul>
+        <li><code>String</code>: <strong>Immutable</strong>. Once a string object is created, its value cannot be changed. Any operation that appears to modify a string actually creates a brand new string object in memory. Poor performance for heavy string manipulation in loops.</li>
+        <li><code>StringBuilder</code>: <strong>Mutable</strong>. Located in <code>System.Text</code>. It modifies the existing string buffer without creating new objects. Excellent performance for heavy string concatenations.</li>
+    </ul>
+<pre>
+// Bad practice in loops (creates 1000 string objects)
+string s = "";
+for (int i = 0; i < 1000; i++) {
+    s += i.ToString(); 
+}
+
+// Good practice (uses the same memory buffer)
+StringBuilder sb = new StringBuilder();
+for (int i = 0; i < 1000; i++) {
+    sb.Append(i.ToString());
+}
+string final = sb.ToString();
+</pre>
+
+    <h2>12. Various String Class Methods</h2>
+    <p>Commonly used methods in the <code>string</code> class:</p>
+    <ul>
+        <li><code>Substring(int startIndex, int length)</code>: Extracts a portion of the string.</li>
+        <li><code>Replace(oldChar, newChar)</code>: Replaces occurrences of a character/string.</li>
+        <li><code>Split(char separator)</code>: Splits a string into an array of strings based on a delimiter.</li>
+        <li><code>Trim()</code>: Removes leading and trailing whitespaces.</li>
+        <li><code>ToUpper() / ToLower()</code>: Converts casing.</li>
+        <li><code>Contains(string substring)</code>: Returns true if the substring exists within the string.</li>
+        <li><code>StartsWith() / EndsWith()</code>: Checks prefixes and suffixes.</li>
+        <li><code>string.IsNullOrEmpty(str)</code>: Checks if a string is null or empty.</li>
+    </ul>
+<pre>
+string text = " Hello World ";
+string trimmed = text.Trim(); // "Hello World"
+string upper = trimmed.ToUpper(); // "HELLO WORLD"
+string[] words = trimmed.Split(' '); // ["Hello", "World"]
+string sub = trimmed.Substring(0, 5); // "Hello"
+bool hasWorld = trimmed.Contains("World"); // True
+</pre>
+
+    <h2>13. Default Parameters, Named Parameters</h2>
+    <p>Introduced in C# 4.0 to make method calls more flexible.</p>
+    <ul>
+        <li><strong>Default Parameters:</strong> Allow you to assign default values to method parameters. If the caller doesn't provide a value, the default is used.</li>
+        <li><strong>Named Parameters:</strong> Allow you to pass arguments to a method by matching the argument with its parameter name, rather than its position.</li>
+    </ul>
+<pre>
+// 'greeting' has a default parameter
+void PrintMessage(string name, string greeting = "Hello") {
+    Console.WriteLine($"{greeting}, {name}!");
+}
+
+PrintMessage("Alice"); // Output: Hello, Alice!
+PrintMessage("Bob", "Hi"); // Output: Hi, Bob!
+
+// Named parameters (order doesn't matter)
+PrintMessage(greeting: "Welcome", name: "Charlie");
+</pre>
+
+    <h2>14. Parse() vs TryParse() vs Convert Class</h2>
+    <p>All are used for type conversion (e.g., string to int), but handle failures differently:</p>
+    <ul>
+        <li><code>Parse()</code>: Converts a string to a specific type. <strong>Throws an exception</strong> (e.g., <code>FormatException</code>, <code>ArgumentNullException</code>) if the conversion fails.</li>
+        <li><code>TryParse()</code>: Safely attempts conversion. Does not throw exceptions. Returns <code>true</code> if successful and places the result in an <code>out</code> parameter. Returns <code>false</code> if it fails.</li>
+        <li><code>Convert.ToInt32()</code> (etc.): A static class method. It handles <code>null</code> strings gracefully (returns 0 instead of throwing <code>ArgumentNullException</code>). However, it still throws a <code>FormatException</code> for invalid formats.</li>
+    </ul>
+<pre>
+string validNumber = "123";
+string invalidNumber = "ABC";
+string nullString = null;
+
+// Parse (Throws exception if invalid or null)
+int num1 = int.Parse(validNumber); // Works
+// int error1 = int.Parse(invalidNumber); // Throws FormatException
+// int error2 = int.Parse(nullString); // Throws ArgumentNullException
+
+// TryParse (Safe, doesn't throw)
+if (int.TryParse(invalidNumber, out int result)) {
+    Console.WriteLine($"Success: {result}");
+} else {
+    Console.WriteLine("Conversion failed safely.");
+}
+
+// Convert (Handles null gracefully)
+int num3 = Convert.ToInt32(nullString); // Returns 0 safely
+// int error3 = Convert.ToInt32(invalidNumber); // Throws FormatException
+</pre>
+
+</body>
+</html>
