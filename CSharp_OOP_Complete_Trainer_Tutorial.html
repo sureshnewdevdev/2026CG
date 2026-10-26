@@ -1,0 +1,481 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>C# Classes and Object-Oriented Programming — Trainer Tutorial</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#f3f6fb;color:#18283b;font:17px/1.7 system-ui,sans-serif}header{background:#102b46;color:white;padding:64px max(6vw,24px)}header h1{font-size:clamp(32px,5vw,56px);line-height:1.1;max-width:1000px;margin:12px 0 24px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:2px;color:#177c82}header .eyebrow{color:#7de0d4}header p{max-width:860px}.layout{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1500px;margin:auto}aside{padding:28px 18px;position:sticky;top:0;height:100vh;overflow:auto}aside a{display:block;padding:9px 10px;border-radius:6px;color:#29435c;text-decoration:none;font-size:13px;line-height:1.5}aside a:hover{background:#dce9f1}main{min-width:0;padding:24px}section{background:white;padding:36px;margin-bottom:24px;border:1px solid #dde6f0;border-radius:14px;scroll-margin-top:20px}h2{font-size:29px;line-height:1.25;margin:8px 0 28px;color:#102b46}h3{font-size:21px;margin-top:28px}pre{background:#102436;color:#edf6ff;border-radius:10px;padding:22px;overflow:auto;font-size:14px;line-height:1.65;tab-size:4}code{font-family:Consolas,monospace}p code,li code,td code{background:#edf2f7;padding:2px 5px;border-radius:4px;color:#164e6c}table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.5}th,td{text-align:left;padding:13px;border:1px solid #d7e1eb;vertical-align:top}th{background:#eaf2f7}tr:nth-child(even){background:#f8fafc}.table{overflow:auto;margin:20px 0}.callout{border-left:4px solid #168b84;background:#eaf8f5;padding:20px;margin:24px 0}.diagram{display:flex;flex-wrap:wrap;gap:14px;margin:24px 0}.diagram div{flex:1;min-width:155px;background:#eaf2f7;border:1px solid #c9dce8;border-radius:8px;padding:20px;text-align:center}.diagram .accent{background:#d9f4ec;border-color:#8fcab8}button{background:#116b72;color:white;border:0;border-radius:6px;padding:11px 17px;margin:4px;cursor:pointer;font:inherit;font-size:14px}a{color:#086c8f}details{border:1px solid #d9e3eb;padding:15px;margin:10px 0;border-radius:8px}summary{font-weight:650;cursor:pointer}footer{padding:28px;text-align:center;color:#51677b;font-size:13px}@media(max-width:900px){.layout{display:block}aside{height:auto;position:static;max-height:340px;border-bottom:1px solid #ccd6e2}main{padding:12px}section{padding:22px}}@media print{aside,button{display:none}.layout{display:block}body{font-size:11pt;background:white}header{padding:24px;background:white;color:#102b46}section{border:0;padding:12px;break-before:page}pre{white-space:pre-wrap;font-size:9pt;background:#f3f5f8;color:#162a3d;break-inside:avoid}.table{overflow:visible}h2,h3{break-after:avoid}details{display:block}details p{display:block}}</style></head><body><header><p class="eyebrow">FRESHER TRAINING · C# · .NET</p><h1>Classes, values<br>and object-oriented C#</h1><p>A complete trainer-led guide: structs, enums, class anatomy, variables, access, constructors, GC, libraries, inheritance and polymorphism.</p><p>17 lessons · runnable examples · expected outputs · integrated EduSync lab · exercises with answers</p><button onclick="window.print()">Print / Save as PDF</button></header><div class="layout"><aside aria-label="Lesson navigation"><a href="#s0">01. Start here: lab setup and learning path</a><a href="#s1">02. The architecture of a class</a><a href="#s2">03. Instance, class (static), local and reference variables</a><a href="#s3">04. Structures: small values with value semantics</a><a href="#s4">05. Enums: named choices instead of magic numbers</a><a href="#s5">06. Access modifiers: who may use a member?</a><a href="#s6">07. Constructors: initialize valid objects</a><a href="#s7">08. Destructors, finalizers and the garbage collector</a><a href="#s8">09. .NET Base Class Library: reuse common building blocks</a><a href="#s9">10. Inheritance: express an is-a relationship</a><a href="#s10">11. Abstract classes: common code plus required behavior</a><a href="#s11">12. Method overloading: same name, different inputs</a><a href="#s12">13. Method overriding and method hiding: predict dispatch</a><a href="#s13">14. Operator overloading: meaningful operations on your types</a><a href="#s14">15. Integrated lab: build the course fee console app</a><a href="#s15">16. Trainer activities, assignments and review answers</a><a href="#s16">17. Official references and next practice</a></aside><main><section id="s0"><p class="eyebrow">LESSON 01</p><h2>Start here: lab setup and learning path</h2><p>This course is for freshers learning C# object-oriented programming. We use a small training platform: learners join courses, courses calculate fees, and reports use .NET library types. Examples use established syntax supported by .NET 8 and later, including .NET 10.</p>
+<div class="callout"><strong>Three corrections:</strong> write <code>public</code>, not “pubic”. <code>new</code> is not an access modifier. C# “destructor” syntax declares a <strong>finalizer</strong>; it does not give deterministic cleanup.</div>
+<h3>Create a project</h3><ol><li>Install a supported .NET SDK, or use Visual Studio with the .NET desktop development workload.</li><li>In Visual Studio, choose Create a new project → Console App → C# → name it <code>CSharpOopLab</code> → select an installed supported framework.</li><li>Replace the entire contents of <code>Program.cs</code> with one runnable example at a time. Do not paste multiple examples into the same file.</li><li>Run with Ctrl+F5. Set breakpoints and press F10 to explain each statement.</li></ol><pre><code>dotnet --info
+dotnet new console -n CSharpOopLab
+cd CSharpOopLab
+dotnet run</code></pre><p>The command line is an alternative to the Visual Studio project steps. The generated project selects an installed SDK/framework; these examples require no external NuGet packages.</p>
+<h3>Suggested trainer schedule</h3><div class="table"><table><thead><tr><th>Session</th><th>Topics</th><th>Hands-on outcome</th></tr></thead><tbody><tr><td>1 · 90 min</td><td>Class anatomy; instance, static and reference variables; struct and enum</td><td>Explain copying and shared references</td></tr><tr><td>2 · 90 min</td><td>Access modifiers; constructors; BCL; GC and finalizers</td><td>Validate course state and close a file with using</td></tr><tr><td>3 · 90 min</td><td>Inheritance; abstract classes; overloading; overriding; hiding; operators</td><td>Run the integrated course-fee demo</td></tr></tbody></table></div><p>Each session includes explanation, code walkthrough, learner practice, and output prediction. Allow additional practice time for a first programming course.</p></section><section id="s1"><p class="eyebrow">LESSON 02</p><h2>The architecture of a class</h2><p>A class defines a reference type: its state and behavior. An object is an instance of that class. A class declaration can contain fields, properties, constructors, methods, events, indexers, and nested types. We start with the first five.</p><pre><code>using System;
+
+namespace Training;
+
+public class Course
+{
+    private decimal _fee;                   // Field: internal state
+    public static int CreatedCount { get; private set; } // Shared counter
+    public string Title { get; }            // Property: controlled access
+    public decimal Fee =&gt; _fee;             // Read-only public view
+
+    public Course(string title, decimal fee) // Constructor: initial state
+    {
+        if (string.IsNullOrWhiteSpace(title))
+            throw new ArgumentException(&quot;Title is required.&quot;, nameof(title));
+        if (fee &lt; 0)
+            throw new ArgumentOutOfRangeException(nameof(fee));
+        Title = title;
+        _fee = fee;
+        CreatedCount++;
+    }
+
+    public void Display()                   // Method: behavior
+        =&gt; Console.WriteLine($&quot;{Title}: {_fee}&quot;);
+}
+
+public static class Program
+{
+    public static void Main()
+    {
+        Course course = new Course(&quot;C#&quot;, 5000m);
+        course.Display();
+        Console.WriteLine(Course.CreatedCount);
+    }
+}</code></pre><h3>Expected output</h3><pre><code>C#: 5000
+1</code></pre><p><code>namespace</code> groups names. <code>public class Course</code> declares the type. A field stores data; a property exposes it under rules. A constructor establishes valid starting values. A method performs an action. <code>m</code> makes a numeric literal a decimal, useful for monetary calculations.</p><p><strong>Trainer demo:</strong> place a breakpoint inside the constructor. Inspect <code>title</code>, <code>fee</code>, and <code>this</code>. Then step into <code>Display()</code>. Explain that a source file's layout is not the CLR's physical object-memory layout; the runtime manages representation.</p></section><section id="s2"><p class="eyebrow">LESSON 03</p><h2>Instance, class (static), local and reference variables</h2><p>These terms describe different aspects of a variable. “Instance/static/local” describes where state belongs. “Value/reference” describes the kind of value stored. A reference variable can be a local variable, an instance field, or a static field.</p><div class="table"><table><thead><tr><th>Term</th><th>Meaning</th><th>Example</th></tr></thead><tbody><tr><td>Instance field</td><td>Separate state for every object</td><td><code>private int _score;</code></td></tr><tr><td>Class/static field</td><td>Shared for a type; not one copy per object</td><td><code>public static int Count;</code></td></tr><tr><td>Local variable</td><td>Declared in a method/block</td><td><code>int attempts = 2;</code></td></tr><tr><td>Reference variable</td><td>Holds an object reference, or null for a nullable reference</td><td><code>Learner first = new Learner();</code></td></tr></tbody></table></div><pre><code>using System;
+
+public class Learner
+{
+    public string Name { get; set; } = &quot;&quot;;
+    public static int Count;
+    public Learner() { Count++; }
+}
+
+public static class Program
+{
+    public static void Main()
+    {
+        Learner first = new Learner { Name = &quot;Anu&quot; };
+        Learner alias = first; // Copies the reference, not the object
+        alias.Name = &quot;Meena&quot;;
+        Learner second = new Learner { Name = &quot;Ravi&quot; };
+        Console.WriteLine(first.Name);
+        Console.WriteLine(second.Name);
+        Console.WriteLine(ReferenceEquals(first, alias));
+        Console.WriteLine(Learner.Count);
+    }
+}</code></pre><pre><code>Meena
+Ravi
+True
+2</code></pre><div class="diagram"><div>first<br>reference</div><div>alias<br>same reference</div><div class="accent">One Learner object<br>Name = Meena</div></div><p>The first two variables refer to the same object. <code>second</code> refers to another object. Use the class name for a static member. Static methods cannot directly read instance fields without an object reference.</p><p><strong>Practice:</strong> change <code>alias = first</code> to <code>alias = new Learner { Name = "Priya" }</code>. Predict the final count and whether updating alias changes first. Answer: count 3; the objects are independent.</p><p>A static counter increment like <code>Count++</code> is a teaching example, not a thread-safe production counter. Also avoid “all value types are on the stack and all references are on the heap”: placement depends on context and runtime optimization.</p></section><section id="s3"><p class="eyebrow">LESSON 04</p><h2>Structures: small values with value semantics</h2><p>A <code>struct</code> is a value type. Assigning it normally copies the struct's fields. Use a small struct for a value such as a coordinate, measurement, or fee amount. A class is often appropriate for an entity with identity such as a learner account.</p><pre><code>using System;
+
+public struct Score
+{
+    public int Value { get; set; }
+}
+
+public static class Program
+{
+    public static void Main()
+    {
+        Score original = new Score { Value = 70 };
+        Score copy = original;
+        copy.Value = 90;
+        Console.WriteLine(original.Value);
+        Console.WriteLine(copy.Value);
+    }
+}</code></pre><pre><code>70
+90</code></pre><p>Step through the assignment: <code>copy</code> receives a separate value. Mutable structs are used here to make copying visible; prefer immutable values in application designs when practical.</p><div class="table"><table><thead><tr><th>Feature</th><th>class</th><th>struct</th></tr></thead><tbody><tr><td>Type category</td><td>Reference type</td><td>Value type</td></tr><tr><td>Ordinary assignment</td><td>Copies object reference</td><td>Copies value (fields)</td></tr><tr><td>Inheritance</td><td>Can derive from one class</td><td>Cannot derive from a user-defined class/struct</td></tr><tr><td>Interfaces</td><td>Can implement interfaces</td><td>Can implement interfaces</td></tr><tr><td>Can be null?</td><td>Yes; nullable annotations describe intent</td><td>Use <code>Score?</code> for nullable value</td></tr><tr><td>Finalizer</td><td>Can declare one</td><td>Cannot declare one</td></tr></tbody></table></div><p><strong>Important:</strong> a struct containing a reference field copies that reference, not the entire referenced object. If a struct contains a <code>List&lt;int&gt;</code>, two copies can still refer to the same list. Structs can be fields inside heap objects and can be boxed into objects.</p><p><code>default(Score)</code> produces zero-initialized fields. Modern C# supports explicit public parameterless struct constructors, but <code>default(T)</code> and array element initialization still produce the zero-initialized value. Do not assume every creation path runs a custom struct constructor.</p></section><section id="s4"><p class="eyebrow">LESSON 05</p><h2>Enums: named choices instead of magic numbers</h2><p>An enum represents named integral constants. It makes a small, stable set of choices clear, such as Draft, Published, and Archived. By default its underlying type is <code>int</code>.</p><pre><code>using System;
+
+public enum CourseStatus
+{
+    Draft = 0,
+    Published = 1,
+    Archived = 2
+}
+
+public static class Program
+{
+    public static void Main()
+    {
+        CourseStatus status = CourseStatus.Published;
+        Console.WriteLine(status);
+        Console.WriteLine((int)status);
+        Console.WriteLine(status == CourseStatus.Published
+            ? &quot;Students can enroll&quot; : &quot;Enrollment closed&quot;);
+        CourseStatus incoming = (CourseStatus)99;
+        Console.WriteLine(Enum.IsDefined(typeof(CourseStatus), incoming));
+    }
+}</code></pre><pre><code>Published
+1
+Students can enroll
+False</code></pre><p>The cast to 99 compiles even though 99 has no named member. Validate external input. The default enum value is zero even when zero has no declared name, so define a sensible zero member when possible. Use explicit values for persisted or exchanged enums so reordering members does not change stored meanings.</p><p><strong>Optional extension:</strong> <code>[Flags]</code> enums represent combinations; assign individual flags powers of two (1, 2, 4...). <code>Enum.IsDefined</code> alone is not a general validator for every valid flags combination.</p><p><strong>Exercise:</strong> create <code>PaymentStatus</code> with Pending = 0, Paid = 1, Failed = 2. Print “Issue receipt” only for Paid.</p></section><section id="s5"><p class="eyebrow">LESSON 06</p><h2>Access modifiers: who may use a member?</h2><p>Access modifiers restrict which code can use a type or member. An <strong>assembly</strong> is a compiled unit such as a DLL; a namespace is a naming group. Two classes in different namespaces can still be in the same assembly.</p><div class="table"><table><thead><tr><th>Modifier</th><th>Same class</th><th>Unrelated class in same assembly</th><th>Derived class in same assembly</th><th>Derived class in another assembly</th><th>Unrelated class in another assembly</th></tr></thead><tbody><tr><td>public</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr><tr><td>private</td><td>Yes</td><td>No</td><td>No</td><td>No</td><td>No</td></tr><tr><td>protected</td><td>Yes</td><td>No</td><td>Yes</td><td>Yes*</td><td>No</td></tr><tr><td>internal</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td>protected internal</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes*</td><td>No</td></tr><tr><td>private protected</td><td>Yes</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr></tbody></table></div><p>* For protected access through an instance in derived code, the receiver must be the derived type or a subtype; an arbitrary base-class reference is insufficient. This matrix describes ordinary member access, without friend assemblies or nested-type exceptions, and assumes the containing type is accessible.</p>
+<div class="callout"><code>protected internal</code> means <strong>same assembly OR derived access</strong>. <code>private protected</code> means <strong>derived access AND same assembly</strong>.</div><pre><code>using System;
+
+public class AccessBase
+{
+    private int secret = 10;
+    public int PublicValue = 20;
+    protected int ProtectedValue = 30;
+    internal int InternalValue = 40;
+    protected internal int EitherValue = 50;
+    private protected int BothValue = 60;
+    public int ReadSecret() =&gt; secret;
+}
+
+public class AccessChild : AccessBase
+{
+    public void Show()
+    {
+        Console.WriteLine(ProtectedValue);
+        Console.WriteLine(EitherValue);
+        Console.WriteLine(BothValue); // Works: derived and same assembly
+        // Console.WriteLine(secret); // Does not compile: private
+    }
+}
+
+public static class Program
+{
+    public static void Main()
+    {
+        AccessBase item = new AccessBase();
+        Console.WriteLine(item.PublicValue);
+        Console.WriteLine(item.InternalValue);
+        Console.WriteLine(item.EitherValue);
+        Console.WriteLine(item.ReadSecret());
+        new AccessChild().Show();
+        // Console.WriteLine(item.ProtectedValue); // Not derived code
+    }
+}</code></pre><pre><code>20
+40
+50
+10
+30
+50
+60</code></pre><h3>Two-project trainer lab</h3><ol><li>Create a solution with a class library <code>Training.Core</code> and console project <code>Training.App</code>.</li><li>Put AccessBase in the library. Add a project reference from App to Core.</li><li>Put AccessChild in App. Keep the base class public.</li><li>Try each member individually. BothValue now fails even in the child, because App is another assembly. InternalValue fails as well. ProtectedValue and EitherValue work through the child instance.</li><li>In an unrelated App class, only public members work. In an unrelated Core class, internal and protected internal also work.</li></ol><p><strong>Defaults:</strong> a top-level class/struct/enum is internal when its access modifier is omitted. Class fields and methods default to private. Top-level types do not accept private or protected. A public member cannot be used through an inaccessible containing type. A property can expose a getter while restricting its setter, for example <code>public int Id { get; private set; }</code>.</p><p><code>new</code>, <code>static</code>, <code>abstract</code>, <code>virtual</code>, and <code>override</code> serve other purposes; none is an access modifier.</p></section><section id="s6"><p class="eyebrow">LESSON 07</p><h2>Constructors: initialize valid objects</h2><p>A constructor has the type's name and no return type. Instance constructors run as objects are created. Overloaded constructors offer different creation inputs. <code>this(...)</code> delegates to another constructor in the same type; <code>base(...)</code> selects a base constructor.</p><pre><code>using System;
+
+public class Enrollment
+{
+    public string Learner { get; }
+    public decimal Fee { get; }
+    public static string Institute { get; }
+
+    static Enrollment()
+    {
+        Institute = &quot;EduSync&quot;;
+        Console.WriteLine(&quot;Static initialization&quot;);
+    }
+
+    public Enrollment() : this(&quot;Guest&quot;, 0m) { }
+    public Enrollment(string learner, decimal fee)
+    {
+        if (fee &lt; 0) throw new ArgumentOutOfRangeException(nameof(fee));
+        Learner = learner;
+        Fee = fee;
+        Console.WriteLine($&quot;Created: {Learner}&quot;);
+    }
+}
+
+public static class Program
+{
+    public static void Main()
+    {
+        Enrollment first = new Enrollment();
+        Enrollment second = new Enrollment(&quot;Anu&quot;, 5000m);
+        Console.WriteLine(Enrollment.Institute);
+    }
+}</code></pre><pre><code>Static initialization
+Created: Guest
+Created: Anu
+EduSync</code></pre><p>The parameterless constructor reuses validation through <code>this</code>. The static constructor has no access modifier or parameters, cannot be called explicitly, and executes at most once per type initialization. Here it runs before the first instance is created.</p><p>If a nonstatic, nonabstract class declares no instance constructor, the compiler supplies a public parameterless one. Once you declare a constructor, the compiler does not also supply that one. Abstract classes receive a protected default constructor instead. Constructors are not inherited, cannot be virtual, and cannot be overridden.</p><p>Constructor-body order in a simple inheritance example: the selected base constructor body runs before the derived constructor body. Field initializers have their own language-defined order, so avoid using this simple rule as a complete account of all initialization.</p></section><section id="s7"><p class="eyebrow">LESSON 08</p><h2>Destructors, finalizers and the garbage collector</h2><p>The GC reclaims managed memory that is no longer reachable from application roots. Leaving a variable's scope does not promise immediate collection. Assigning one reference to null does not make an object collectible if other reachable references still lead to it.</p>
+<div class="diagram"><div>Reachable object<br>keep using it</div><div>No reachable path<br>eligible for collection</div><div class="accent">A later GC<br>may reclaim memory</div></div>
+<p>Generations 0, 1 and 2 help the GC focus on shorter-lived allocations. Objects surviving collections may be promoted. These details optimize collection; they are not a schedule that application code should rely on.</p><pre><code>public class NativeWrapper
+{
+    ~NativeWrapper()
+    {
+        // Finalizer syntax demonstration only.
+        // Real native ownership normally uses SafeHandle + IDisposable.
+    }
+}</code></pre><p>The <code>~NativeWrapper()</code> syntax is commonly called a destructor. In C# it is a finalizer: there are no parameters, access modifiers, or direct calls. Its timing is nondeterministic, it adds overhead, and execution is not guaranteed at process shutdown. Do not add finalizers to ordinary business classes or use them to save essential business data.</p><h3>Practical resource cleanup: using</h3><pre><code>using System;
+using System.IO;
+
+public static class Program
+{
+    public static void Main()
+    {
+        using (StreamWriter writer = new StreamWriter(&quot;attendance.txt&quot;))
+        {
+            writer.WriteLine(&quot;Anu,Present&quot;);
+        } // Dispose runs here, including when the block exits by exception.
+        Console.WriteLine(File.ReadAllText(&quot;attendance.txt&quot;).Trim());
+    }
+}</code></pre><pre><code>Anu,Present</code></pre><p>The program creates or replaces <code>attendance.txt</code> in its working directory. <code>Dispose</code> releases the writer's resources promptly. It does not mean the managed StreamWriter object has already been collected.</p><div class="table"><table><thead><tr><th>Mechanism</th><th>Purpose</th><th>Timing</th></tr></thead><tbody><tr><td>Constructor</td><td>Initialize an object</td><td>During construction</td></tr><tr><td>Dispose / using</td><td>Release owned resources</td><td>Deterministic at the explicit call/scope exit</td></tr><tr><td>Finalizer</td><td>Fallback for unmanaged resource ownership when needed</td><td>Runtime-controlled; no reliable schedule</td></tr><tr><td>GC</td><td>Reclaim unreachable managed memory</td><td>Runtime-controlled</td></tr></tbody></table></div><p>Prefer existing disposable library types and SafeHandle for native handles. Normally let the runtime decide when to collect; do not put <code>GC.Collect()</code> in regular business logic. Memory can still grow if you retain objects in static lists, event subscriptions, or unbounded caches.</p><p><strong>Trainer exercise:</strong> stop inside and after the using block. Explain that closing a file and reclaiming object memory solve different problems.</p></section><section id="s8"><p class="eyebrow">LESSON 09</p><h2>.NET Base Class Library: reuse common building blocks</h2><p>The .NET Base Class Library (BCL) provides reusable types for common work. C# is the language, the CLR executes managed code, and the libraries provide APIs. The broader .NET libraries also include facilities beyond the narrow BCL label.</p><div class="table"><table><thead><tr><th>Namespace</th><th>Useful types</th><th>Training example</th></tr></thead><tbody><tr><td>System</td><td>Console, String, DateTime, Math</td><td>Display results and calculate dates</td></tr><tr><td>System.Collections.Generic</td><td>List&lt;T&gt;, Dictionary&lt;TKey,TValue&gt;</td><td>Store learners and look up fees</td></tr><tr><td>System.IO</td><td>File, Path, StreamWriter</td><td>Read and write attendance</td></tr><tr><td>System.Linq</td><td>Enumerable extension methods</td><td>Filter courses by fee</td></tr><tr><td>System.Threading.Tasks</td><td>Task</td><td>Represent asynchronous operations</td></tr><tr><td>System.Net.Http</td><td>HttpClient</td><td>Call a course API</td></tr><tr><td>System.Text.Json</td><td>JsonSerializer</td><td>Serialize course data</td></tr></tbody></table></div><pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+
+public static class Program
+{
+    public static void Main()
+    {
+        List&lt;decimal&gt; fees = new List&lt;decimal&gt; { 3000m, 5000m, 8000m };
+        var affordable = fees.Where(fee =&gt; fee &lt;= 5000m);
+        Console.WriteLine(string.Join(&quot;, &quot;, affordable));
+        Console.WriteLine(fees.Sum());
+    }
+}</code></pre><pre><code>3000, 5000
+16000</code></pre><p><code>List&lt;decimal&gt;</code> stores typed values, <code>Where</code> filters them, <code>string.Join</code> formats them, and <code>Sum</code> totals them. <code>using System.Linq;</code> brings extension methods into scope; it does not install a package. The console examples here use built-in framework references.</p><p><strong>Exercise:</strong> count the fees above 5000. Answer: <code>fees.Count(fee =&gt; fee &gt; 5000m)</code> returns 1.</p></section><section id="s9"><p class="eyebrow">LESSON 10</p><h2>Inheritance: express an is-a relationship</h2><p>A derived class specializes a base class. An OnlineCourse is a Course; a Course has a collection of enrollments. Use inheritance for the first relationship and composition for the second.</p><pre><code>using System;
+
+public class Course
+{
+    public string Title { get; }
+    public Course(string title) { Title = title; }
+    public void ShowTitle() =&gt; Console.WriteLine(Title);
+}
+
+public class OnlineCourse : Course
+{
+    public string Platform { get; }
+    public OnlineCourse(string title, string platform) : base(title)
+        { Platform = platform; }
+    public void Join() =&gt; Console.WriteLine($&quot;Join using {Platform}&quot;);
+}
+
+public static class Program
+{
+    public static void Main()
+    {
+        OnlineCourse course = new OnlineCourse(&quot;C#&quot;, &quot;Teams&quot;);
+        course.ShowTitle();
+        course.Join();
+        Course baseView = course; // Upcast: still the same object
+        baseView.ShowTitle();
+    }
+}</code></pre><pre><code>C#
+Join using Teams
+C#</code></pre><p>C# permits one direct base class, while a class can implement multiple interfaces. Private base state still belongs to the base portion of the object, but derived code cannot access it directly. Constructors are not inherited. A <code>sealed</code> class prevents further derivation.</p><p><strong>Trainer prompt:</strong> “Does assigning course to baseView create another course?” Answer: no. It copies a reference and changes the members available through that variable's declared type.</p></section><section id="s10"><p class="eyebrow">LESSON 11</p><h2>Abstract classes: common code plus required behavior</h2><p>An abstract class cannot be instantiated directly. It can hold state, constructors, implemented methods, and abstract members. Abstract methods declare a contract without a body; a concrete derived class must supply implementations for the remaining abstract members.</p><pre><code>using System;
+
+public abstract class Course
+{
+    public string Title { get; }
+    protected Course(string title) { Title = title; }
+    public void Describe() =&gt; Console.WriteLine(Title);
+    public abstract decimal CalculateFee();
+}
+
+public class RecordedCourse : Course
+{
+    public RecordedCourse(string title) : base(title) { }
+    public override decimal CalculateFee() =&gt; 2000m;
+}
+
+public static class Program
+{
+    public static void Main()
+    {
+        Course course = new RecordedCourse(&quot;C# Basics&quot;);
+        course.Describe();
+        Console.WriteLine(course.CalculateFee());
+        // Course invalid = new Course(&quot;C#&quot;); // Cannot instantiate abstract type
+    }
+}</code></pre><pre><code>C# Basics
+2000</code></pre><p>The constructor in Course still runs as part of constructing RecordedCourse. <code>abstract</code> is appropriate when every course needs its own fee rule but shares common data. Use an interface when you chiefly need a capability contract across otherwise unrelated types; choose an abstract class when shared instance state and implementation are central.</p><p><strong>Practice:</strong> create LiveCourse with a fee of 5000. Put both concrete objects in a <code>Course[]</code> and call CalculateFee in a loop.</p></section><section id="s11"><p class="eyebrow">LESSON 12</p><h2>Method overloading: same name, different inputs</h2><p>Overloading offers multiple signatures for one conceptual operation. Overload selection ordinarily happens at compile time from the method arguments and their compile-time types; dynamic binding is a separate advanced case.</p><pre><code>using System;
+
+public class FeeCalculator
+{
+    public decimal Calculate(decimal fee) =&gt; fee;
+    public decimal Calculate(decimal fee, int learners) =&gt; fee * learners;
+    public decimal Calculate(decimal fee, decimal discountPercent)
+        =&gt; fee * (1m - discountPercent / 100m);
+}
+
+public static class Program
+{
+    public static void Main()
+    {
+        FeeCalculator calculator = new FeeCalculator();
+        Console.WriteLine(calculator.Calculate(5000m));
+        Console.WriteLine(calculator.Calculate(5000m, 2));
+        Console.WriteLine(calculator.Calculate(5000m, 10m));
+    }
+}</code></pre><pre><code>5000
+10000
+4500.0</code></pre><p><code>2</code> is int, so it selects learner count. <code>10m</code> is decimal, so it selects discount percent. Return type alone, parameter names alone, and <code>static</code> versus instance alone do not distinguish overloads. Production methods should validate business ranges.</p><div class="callout">Overloading two parameters with different meanings can surprise callers. For a business API, names such as CalculateGroupFee and ApplyDiscount can be clearer. This example makes overload selection visible.</div></section><section id="s12"><p class="eyebrow">LESSON 13</p><h2>Method overriding and method hiding: predict dispatch</h2><p>Overriding changes inherited virtual behavior for the same polymorphic operation. Hiding declares another member that conceals a base member during lookup. These mechanisms produce different results when a variable has the base type.</p><pre><code>using System;
+
+public class BaseCourse
+{
+    public virtual void Teach() =&gt; Console.WriteLine(&quot;Base teaching&quot;);
+    public void Describe() =&gt; Console.WriteLine(&quot;Base description&quot;);
+}
+
+public class LiveCourse : BaseCourse
+{
+    public override void Teach() =&gt; Console.WriteLine(&quot;Live teaching&quot;);
+    public new void Describe() =&gt; Console.WriteLine(&quot;Live description&quot;);
+}
+
+public static class Program
+{
+    public static void Main()
+    {
+        LiveCourse derived = new LiveCourse();
+        BaseCourse baseView = derived;
+        derived.Teach();
+        baseView.Teach();
+        derived.Describe();
+        baseView.Describe();
+    }
+}</code></pre><pre><code>Live teaching
+Live teaching
+Live description
+Base description</code></pre><p>Teach uses the runtime object's overridden implementation through both variables. Describe is a nonvirtual hidden member: member selection follows the variable's compile-time type. <code>new</code> explicitly acknowledges hiding; omitting it generally produces a warning and does not turn hiding into overriding.</p><p>A base member must be virtual, abstract, or an overridable override for a derived member to override it. You cannot override a static method, constructor, or nonvirtual method. An override cannot arbitrarily change accessibility; cross-assembly protected internal overrides have a special protected accessibility rule. <code>base.Teach()</code> inside an override explicitly calls the base implementation. <code>sealed override</code> stops further overriding.</p><div class="table"><table><thead><tr><th>Feature</th><th>Overloading</th><th>Overriding</th><th>Hiding</th></tr></thead><tbody><tr><td>Purpose</td><td>Offer different input signatures</td><td>Specialize virtual behavior</td><td>Declare a separate member with same name</td></tr><tr><td>Inheritance needed?</td><td>No</td><td>Yes</td><td>Yes</td></tr><tr><td>Signature in these examples</td><td>Different parameters</td><td>Same signature</td><td>Same signature</td></tr><tr><td>Keywords</td><td>No dedicated keyword</td><td>virtual / abstract + override</td><td>new</td></tr><tr><td>Selection in ordinary calls</td><td>Compile-time overload resolution</td><td>Runtime virtual dispatch after lookup</td><td>Compile-time member lookup for these nonvirtual members</td></tr><tr><td>Base reference example</td><td>Chosen by available overloads</td><td>Derived Teach</td><td>Base Describe</td></tr></tbody></table></div><p><strong>Nuance:</strong> hiding can also hide virtual members; a hidden member can start a new virtual chain. The table and demo use a nonvirtual hidden method so the core difference stays clear.</p><p><strong>The two roles of new:</strong> <code>new LiveCourse()</code> constructs an object. <code>public new void Describe()</code> declares hiding. Neither use grants access.</p></section><section id="s13"><p class="eyebrow">LESSON 14</p><h2>Operator overloading: meaningful operations on your types</h2><p>Operator overloading lets a user-defined type define an operator's behavior. For example, adding two fee amounts can return a new fee amount. Keep the meaning predictable; use named methods for operations that would surprise readers.</p><pre><code>using System;
+
+public readonly struct FeeAmount
+{
+    public decimal Value { get; }
+    public FeeAmount(decimal value) { Value = value; }
+
+    public static FeeAmount operator +(FeeAmount left, FeeAmount right)
+        =&gt; new FeeAmount(left.Value + right.Value);
+}
+
+public static class Program
+{
+    public static void Main()
+    {
+        FeeAmount tuition = new FeeAmount(5000m);
+        FeeAmount lab = new FeeAmount(500m);
+        FeeAmount total = tuition + lab;
+        Console.WriteLine(total.Value);
+    }
+}</code></pre><pre><code>5500</code></pre><p>The <code>+</code> operator here is a public static method, one of its operands is the containing type, and it returns a new value. The readonly struct prevents accidental state changes after construction.</p><p>You cannot invent new operator symbols or change operator precedence or operand count. Operators such as <code>==</code>/<code>!=</code> require paired definitions. Equality designs should also keep Equals and GetHashCode consistent. Real multi-currency amounts must check currency compatibility; this example assumes all values are in the same currency.</p><p><strong>Version note:</strong> the traditional public static binary operator form above is supported across the targeted versions. C# 14 also supports instance compound-assignment operators and instance increment/decrement operators; the blanket claim that every user-defined operator must always be static is no longer accurate.</p><p><strong>Practice:</strong> implement subtraction for FeeAmount. Decide and document whether negative results are permitted before adding validation.</p></section><section id="s14"><p class="eyebrow">LESSON 15</p><h2>Integrated lab: build the course fee console app</h2><p>Replace Program.cs with the complete program below. It combines the concepts without a database or external packages. A finalizer is intentionally excluded: these business objects do not own unmanaged resources.</p><p><button id="downloadCode">Download Program.cs</button> <button id="copyCode">Copy complete program</button><span id="copyStatus" role="status"></span></p><pre><code>using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+
+public enum CourseStatus { Draft = 0, Published = 1, Archived = 2 }
+
+public readonly struct FeeAmount
+{
+    public decimal Value { get; }
+    public FeeAmount(decimal value)
+    {
+        if (value &lt; 0) throw new ArgumentOutOfRangeException(nameof(value));
+        Value = value;
+    }
+    public static FeeAmount operator +(FeeAmount left, FeeAmount right)
+        =&gt; new FeeAmount(left.Value + right.Value);
+}
+
+public abstract class Course
+{
+    private readonly decimal _baseFee;
+    public static int CreatedCount { get; private set; }
+    public string Title { get; }
+    public CourseStatus Status { get; private set; }
+    protected decimal BaseFee =&gt; _baseFee;
+    internal string Code { get; }
+    protected internal string Institute =&gt; &quot;EduSync&quot;;
+    private protected decimal LabFee =&gt; 500m;
+
+    protected Course(string title, decimal baseFee, string code)
+    {
+        if (string.IsNullOrWhiteSpace(title))
+            throw new ArgumentException(&quot;Title is required.&quot;, nameof(title));
+        if (baseFee &lt; 0) throw new ArgumentOutOfRangeException(nameof(baseFee));
+        Title = title;
+        _baseFee = baseFee;
+        Code = code;
+        Status = CourseStatus.Draft;
+        CreatedCount++;
+    }
+
+    public void Publish() =&gt; Status = CourseStatus.Published;
+    public abstract FeeAmount CalculateFee();
+    public FeeAmount CalculateFee(int learners)
+    {
+        if (learners &lt; 1) throw new ArgumentOutOfRangeException(nameof(learners));
+        return new FeeAmount(CalculateFee().Value * learners);
+    }
+    public virtual string Delivery() =&gt; &quot;General delivery&quot;;
+    public string Describe() =&gt; &quot;Base course view&quot;;
+}
+
+public class LiveCourse : Course
+{
+    public LiveCourse(string title, decimal baseFee)
+        : base(title, baseFee, &quot;LIVE&quot;) { }
+    public override FeeAmount CalculateFee()
+        =&gt; new FeeAmount(BaseFee) + new FeeAmount(LabFee);
+    public override string Delivery() =&gt; &quot;Live instructor session&quot;;
+    public new string Describe() =&gt; &quot;Live course view&quot;;
+    public string GetInstitute() =&gt; Institute;
+}
+
+public class RecordedCourse : Course
+{
+    public RecordedCourse(string title) : this(title, 2000m) { }
+    public RecordedCourse(string title, decimal baseFee)
+        : base(title, baseFee, &quot;REC&quot;) { }
+    public override FeeAmount CalculateFee() =&gt; new FeeAmount(BaseFee);
+    public override string Delivery() =&gt; &quot;Recorded videos&quot;;
+}
+
+public static class Program
+{
+    public static void Main()
+    {
+        // Stable decimal formatting for the documented output.
+        CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+        LiveCourse live = new LiveCourse(&quot;C# Live&quot;, 5000m);
+        RecordedCourse recorded = new RecordedCourse(&quot;C# Recorded&quot;);
+        live.Publish();
+        recorded.Publish();
+        Course alias = live;
+
+        Console.WriteLine($&quot;Same object: {ReferenceEquals(live, alias)}&quot;);
+        Console.WriteLine($&quot;Count: {Course.CreatedCount}&quot;);
+        Console.WriteLine($&quot;Status: {live.Status}&quot;);
+        Console.WriteLine($&quot;Override: {alias.Delivery()}&quot;);
+        Console.WriteLine($&quot;Hidden via derived: {live.Describe()}&quot;);
+        Console.WriteLine($&quot;Hidden via base: {alias.Describe()}&quot;);
+        Console.WriteLine($&quot;One learner: {live.CalculateFee().Value}&quot;);
+        // Use the base-typed variable to expose both base overload signatures.
+        Console.WriteLine($&quot;Three learners: {alias.CalculateFee(3).Value}&quot;);
+        Console.WriteLine($&quot;Internal code: {live.Code}&quot;);
+        Console.WriteLine($&quot;Institute: {live.GetInstitute()}&quot;);
+
+        List&lt;Course&gt; courses = new List&lt;Course&gt; { live, recorded };
+        foreach (Course course in courses.Where(c =&gt; c.Status == CourseStatus.Published))
+            Console.WriteLine($&quot;{course.Title}: {course.CalculateFee().Value}&quot;);
+        FeeAmount combined = live.CalculateFee() + recorded.CalculateFee();
+        Console.WriteLine($&quot;Combined fees: {combined.Value}&quot;);
+    }
+}</code></pre><h3>Expected output</h3><pre><code>Same object: True
+Count: 2
+Status: Published
+Override: Live instructor session
+Hidden via derived: Live course view
+Hidden via base: Base course view
+One learner: 5500
+Three learners: 16500
+Internal code: LIVE
+Institute: EduSync
+C# Live: 5500
+C# Recorded: 2000
+Combined fees: 7500</code></pre><h3>Walkthrough</h3><ol><li>The enum describes publication status; the readonly struct carries a fee value.</li><li>Course's constructor validates inputs and increments shared state.</li><li>LiveCourse adds a lab fee using the overloaded + operator; RecordedCourse uses its base fee.</li><li>The alias variable refers to the live object through the abstract base type.</li><li>Delivery dispatches to the override. Describe shows the difference between hidden members.</li><li>CalculateFee with no arguments calculates one fee. The int overload reuses virtual dispatch for the per-learner amount.</li><li>LINQ filters published courses. The list stores different concrete types through the common Course abstraction.</li></ol><p><strong>Output verification note:</strong> expected outputs were reasoned through and source-reviewed. A .NET compiler/runtime was unavailable in the authoring environment, so the C# programs were not executed there. Run <code>dotnet run</code> locally to verify.</p></section><section id="s15"><p class="eyebrow">LESSON 16</p><h2>Trainer activities, assignments and review answers</h2><h3>Teach each concept in four moves</h3><ol><li>Show a business need: a course title, status, fee, or delivery rule.</li><li>Ask learners to predict behavior before running the code.</li><li>Step through the important assignment or method call.</li><li>Change one line, rerun, and explain the changed result.</li></ol><div class="table"><table><thead><tr><th>Activity</th><th>Task</th><th>Expected result / acceptance check</th></tr></thead><tbody><tr><td>Value and reference copy</td><td>Copy Score; then alias a Learner</td><td>Score copy changes independently; reference alias changes the same object</td></tr><tr><td>Access boundaries</td><td>Move AccessChild to another project</td><td>private protected fails; protected remains usable through the derived instance</td></tr><tr><td>New course type</td><td>Add WorkshopCourse with base fee 3000 and lab fee 750</td><td>CalculateFee returns 3750; three seats cost 11250</td></tr><tr><td>Validation</td><td>Construct a course with negative base fee</td><td>ArgumentOutOfRangeException</td></tr><tr><td>Polymorphic list</td><td>Add WorkshopCourse to List&lt;Course&gt;</td><td>Loop calls the correct fee implementation without a type switch</td></tr><tr><td>Hiding experiment</td><td>Print Describe using base and derived variables</td><td>Different member selected; overriding example remains polymorphic</td></tr><tr><td>Deterministic cleanup</td><td>Write attendance with using; read it after the block</td><td>File is closed promptly; managed memory need not be collected yet</td></tr><tr><td>BCL filtering</td><td>List courses with fee at most 2500</td><td>Recorded course qualifies in the integrated example</td></tr></tbody></table></div><h3>Review questions with answers</h3>
+<details><summary>Is a reference variable always a class/static variable?</summary><p>No. Reference describes the stored value category. Static describes association with a type. A local variable can hold a reference.</p></details>
+<details><summary>Can a public method expose a private field safely?</summary><p>Yes, by returning a permitted view or validated operation. Public accessibility does not itself expose every private member.</p></details>
+<details><summary>Does protected internal require both conditions?</summary><p>No. It permits same-assembly access OR protected derived access. Private protected requires the intersection.</p></details>
+<details><summary>Can return type alone distinguish overloads?</summary><p>No. int Read() and string Read() cannot coexist solely as return-type overloads.</p></details>
+<details><summary>Can an abstract class have a constructor?</summary><p>Yes. It initializes the base portion of a derived object.</p></details>
+<details><summary>What selects a virtual override?</summary><p>After compile-time member lookup and overload resolution, virtual dispatch selects the implementation for the runtime object.</p></details>
+<details><summary>Does new mean public?</summary><p>No. As a member modifier it acknowledges hiding; accessibility is declared separately.</p></details>
+<details><summary>Does using force garbage collection?</summary><p>No. It arranges Dispose calls. GC separately manages reachable managed memory.</p></details>
+<details><summary>Can a struct contain a reference?</summary><p>Yes. Copying that struct copies the reference field, so referenced state can remain shared.</p></details>
+<details><summary>Why not implement a finalizer in every class?</summary><p>Ordinary managed business objects do not need one. Finalizers introduce nondeterministic cleanup and additional GC work.</p></details>
+<h3>Common errors</h3><div class="table"><table><thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead><tbody><tr><td>“inaccessible due to protection level”</td><td>Caller is outside allowed scope</td><td>Move operation behind an appropriate public method; change access only if intended</td></tr><tr><td>“no suitable method found to override”</td><td>Base member nonvirtual or wrong signature</td><td>Use virtual/abstract in base and matching override</td></tr><tr><td>Hides inherited member warning</td><td>Same-name derived declaration</td><td>Choose override for polymorphism, or explicit new for intended hiding</td></tr><tr><td>“does not implement inherited abstract member”</td><td>Concrete type lacks an implementation</td><td>Implement it with override or make derived type abstract</td></tr><tr><td>No parameterless constructor</td><td>A custom constructor removed the implicit one</td><td>Supply required arguments or add an explicit constructor</td></tr><tr><td>Top-level statements must precede type declarations</td><td>Multiple examples mixed together</td><td>Replace Program.cs completely with one example</td></tr><tr><td>No output from finalizer</td><td>Finalizer timing is nondeterministic</td><td>Do not depend on it; use IDisposable for prompt cleanup</td></tr></tbody></table></div></section><section id="s16"><p class="eyebrow">LESSON 17</p><h2>Official references and next practice</h2><p>Microsoft documentation was checked on 26 October 2026. Reference pages can include newer language features; examples in this tutorial use established forms unless explicitly marked.</p><ul>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/types/structs">Struct types</a> and <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/enum">enumerations</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/access-modifiers">Access modifiers</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/constructors">Constructors</a> and <a href="https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/finalizers">finalizers</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/standard/garbage-collection/fundamentals">GC fundamentals</a> and <a href="https://learn.microsoft.com/en-us/dotnet/standard/class-library-overview">core libraries</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/object-oriented/inheritance">Inheritance</a> and <a href="https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/abstract-and-sealed-classes-and-class-members">abstract classes</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/methods">Methods and overloads</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/knowing-when-to-use-override-and-new-keywords">Override versus new</a> and <a href="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/operator-overloading">operator overloading</a></li></ul>
+<p><strong>Next project:</strong> extend the console application with learner enrollment, a Dictionary-based course lookup, input validation, and a file export using using. Keep fee calculations in the domain classes and console input/output in Program.</p></section></main></div><footer>C# OOP Trainer Tutorial · 26 October 2026 · Offline-ready; no external assets required</footer><script>const source="using System;\nusing System.Collections.Generic;\nusing System.Globalization;\nusing System.Linq;\n\npublic enum CourseStatus { Draft = 0, Published = 1, Archived = 2 }\n\npublic readonly struct FeeAmount\n{\n    public decimal Value { get; }\n    public FeeAmount(decimal value)\n    {\n        if (value < 0) throw new ArgumentOutOfRangeException(nameof(value));\n        Value = value;\n    }\n    public static FeeAmount operator +(FeeAmount left, FeeAmount right)\n        => new FeeAmount(left.Value + right.Value);\n}\n\npublic abstract class Course\n{\n    private readonly decimal _baseFee;\n    public static int CreatedCount { get; private set; }\n    public string Title { get; }\n    public CourseStatus Status { get; private set; }\n    protected decimal BaseFee => _baseFee;\n    internal string Code { get; }\n    protected internal string Institute => \"EduSync\";\n    private protected decimal LabFee => 500m;\n\n    protected Course(string title, decimal baseFee, string code)\n    {\n        if (string.IsNullOrWhiteSpace(title))\n            throw new ArgumentException(\"Title is required.\", nameof(title));\n        if (baseFee < 0) throw new ArgumentOutOfRangeException(nameof(baseFee));\n        Title = title;\n        _baseFee = baseFee;\n        Code = code;\n        Status = CourseStatus.Draft;\n        CreatedCount++;\n    }\n\n    public void Publish() => Status = CourseStatus.Published;\n    public abstract FeeAmount CalculateFee();\n    public FeeAmount CalculateFee(int learners)\n    {\n        if (learners < 1) throw new ArgumentOutOfRangeException(nameof(learners));\n        return new FeeAmount(CalculateFee().Value * learners);\n    }\n    public virtual string Delivery() => \"General delivery\";\n    public string Describe() => \"Base course view\";\n}\n\npublic class LiveCourse : Course\n{\n    public LiveCourse(string title, decimal baseFee)\n        : base(title, baseFee, \"LIVE\") { }\n    public override FeeAmount CalculateFee()\n        => new FeeAmount(BaseFee) + new FeeAmount(LabFee);\n    public override string Delivery() => \"Live instructor session\";\n    public new string Describe() => \"Live course view\";\n    public string GetInstitute() => Institute;\n}\n\npublic class RecordedCourse : Course\n{\n    public RecordedCourse(string title) : this(title, 2000m) { }\n    public RecordedCourse(string title, decimal baseFee)\n        : base(title, baseFee, \"REC\") { }\n    public override FeeAmount CalculateFee() => new FeeAmount(BaseFee);\n    public override string Delivery() => \"Recorded videos\";\n}\n\npublic static class Program\n{\n    public static void Main()\n    {\n        // Stable decimal formatting for the documented output.\n        CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;\n        LiveCourse live = new LiveCourse(\"C# Live\", 5000m);\n        RecordedCourse recorded = new RecordedCourse(\"C# Recorded\");\n        live.Publish();\n        recorded.Publish();\n        Course alias = live;\n\n        Console.WriteLine($\"Same object: {ReferenceEquals(live, alias)}\");\n        Console.WriteLine($\"Count: {Course.CreatedCount}\");\n        Console.WriteLine($\"Status: {live.Status}\");\n        Console.WriteLine($\"Override: {alias.Delivery()}\");\n        Console.WriteLine($\"Hidden via derived: {live.Describe()}\");\n        Console.WriteLine($\"Hidden via base: {alias.Describe()}\");\n        Console.WriteLine($\"One learner: {live.CalculateFee().Value}\");\n        // Use the base-typed variable to expose both base overload signatures.\n        Console.WriteLine($\"Three learners: {alias.CalculateFee(3).Value}\");\n        Console.WriteLine($\"Internal code: {live.Code}\");\n        Console.WriteLine($\"Institute: {live.GetInstitute()}\");\n\n        List<Course> courses = new List<Course> { live, recorded };\n        foreach (Course course in courses.Where(c => c.Status == CourseStatus.Published))\n            Console.WriteLine($\"{course.Title}: {course.CalculateFee().Value}\");\n        FeeAmount combined = live.CalculateFee() + recorded.CalculateFee();\n        Console.WriteLine($\"Combined fees: {combined.Value}\");\n    }\n}\n";document.getElementById("downloadCode").onclick=()=>{const u=URL.createObjectURL(new Blob([source],{type:"text/plain;charset=utf-8"}));const a=document.createElement("a");a.href=u;a.download="Program.cs";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)};document.getElementById("copyCode").onclick=async()=>{try{await navigator.clipboard.writeText(source);document.getElementById("copyStatus").textContent=" Copied"}catch(e){document.getElementById("copyStatus").textContent=" Use Download Program.cs or select the code manually."}};</script></body></html>
