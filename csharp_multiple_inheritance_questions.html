@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C# Multiple Inheritance Concepts - Coding Questions</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #68217a; /* C# purple */
+            text-align: center;
+            border-bottom: 2px solid #68217a;
+            padding-bottom: 10px;
+        }
+        .intro {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-left: 5px solid #007bff;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .question-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .question-title {
+            color: #0056b3;
+            margin-top: 0;
+            font-size: 1.25em;
+        }
+        .challenge {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 10px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: Consolas, monospace;
+            color: #d63384;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>5 Medium-Level C# Questions: Multiple Inheritance Concepts</h1>
+    
+    <div class="intro">
+        <strong>Note:</strong> While C# does not support multiple class inheritance to avoid the architectural "Diamond Problem," it relies on interfaces and composition to achieve the same behaviors. These questions test your ability to work around this limitation.
+    </div>
+
+    <div class="question-card">
+        <h2 class="question-title">1. Resolving Method Name Collisions (Explicit Implementation)</h2>
+        <p>You have two interfaces, <code>IPrinter</code> and <code>IScanner</code>. Both interfaces declare a void method named <code>Initialize()</code>. Create a <code>MultiFunctionDevice</code> class that implements both interfaces. Write the code so that calling <code>Initialize()</code> behaves differently depending on whether the object is cast as an <code>IPrinter</code> or an <code>IScanner</code>.</p>
+        <div class="challenge">
+            Challenge: Ensure that the <code>Initialize()</code> method cannot be called directly on an instance of <code>MultiFunctionDevice</code> without casting.
+        </div>
+    </div>
+
+    <div class="question-card">
+        <h2 class="question-title">2. The C# 8.0 Diamond Problem (Default Interface Methods)</h2>
+        <p>Create an interface <code>IDevice</code> with a default method implementation <code>void PowerOn() => Console.WriteLine("Device On");</code>. Create two more interfaces, <code>ILaptop</code> and <code>ITablet</code>, which both inherit from <code>IDevice</code> and override the <code>PowerOn()</code> default method with their own console outputs. Finally, write a <code>HybridComputer</code> class that implements both <code>ILaptop</code> and <code>ITablet</code>.</p>
+        <div class="challenge">
+            Challenge: Write the necessary code inside <code>HybridComputer</code> to resolve the compiler error caused by inheriting two different default implementations of <code>PowerOn()</code>.
+        </div>
+    </div>
+
+    <div class="question-card">
+        <h2 class="question-title">3. Mixing Base Classes and Multiple Interfaces</h2>
+        <p>Design a system for a smart home. You have an abstract base class <code>Appliance</code> with an abstract method <code>TurnOff()</code>. You also have two interfaces: <code>IWiFiConnected</code> (requires a <code>ConnectToNetwork(string ssid)</code> method) and <code>IEnergyEfficient</code> (requires a <code>double CalculatePowerSaving()</code> method).</p>
+        <div class="challenge">
+            Challenge: Write a <code>SmartThermostat</code> class that inherits from <code>Appliance</code> and implements both interfaces. Demonstrate how you would instantiate this class and call methods from the base class and both interfaces.
+        </div>
+    </div>
+
+    <div class="question-card">
+        <h2 class="question-title">4. Simulating Multiple Class Inheritance via Composition</h2>
+        <p>You are building a game engine where a <code>PlayerCharacter</code> needs the behaviors of two distinct existing classes: <code>CombatSystem</code> (methods: <code>Attack()</code>, <code>Defend()</code>) and <code>InventorySystem</code> (methods: <code>AddItem()</code>, <code>DropItem()</code>). Since <code>PlayerCharacter</code> cannot inherit from both classes, refactor this design.</p>
+        <div class="challenge">
+            Challenge: Extract interfaces <code>ICombatant</code> and <code>IInventory</code> from the respective classes. Write the <code>PlayerCharacter</code> class so it implements both interfaces by using composition (holding instances of <code>CombatSystem</code> and <code>InventorySystem</code> internally) to delegate the actual logic, thereby faking multiple inheritance.
+        </div>
+    </div>
+
+    <div class="question-card">
+        <h2 class="question-title">5. Deep Interface Inheritance Chains</h2>
+        <p>Define two foundational interfaces: <code>IReadable</code> (contains <code>string Read()</code>) and <code>IWritable</code> (contains <code>void Write(string data)</code>). Create a third interface, <code>IFileStream</code>, that inherits from both <code>IReadable</code> and <code>IWritable</code>, and adds a new method <code>void Close()</code>.</p>
+        <div class="challenge">
+            Challenge: Write a <code>SecureDocument</code> class that implements <code>IFileStream</code>. Add a twist: make the <code>Write()</code> method throw an <code>UnauthorizedAccessException</code> unless a boolean property <code>IsUnlocked</code> is true.
+        </div>
+    </div>
+
+</body>
+</html>
