@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>C# File Handling and Async/Await</title><style>*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:85px}body{margin:0;background:#f3f6fa;color:#18283b;font:16px/1.7 system-ui,Segoe UI,sans-serif}header{position:sticky;top:0;z-index:4;background:#142d49;color:white;padding:14px 24px;display:flex;align-items:center;gap:20px;justify-content:space-between}header b{font-size:19px}header button,button{cursor:pointer;border:1px solid #b9c9df;border-radius:7px;background:white;color:#173653;padding:7px 12px;font:inherit;font-size:13px}nav{position:fixed;top:74px;bottom:0;width:270px;overflow:auto;padding:18px;background:white;border-right:1px solid #dbe3ed}nav a{display:block;padding:9px 10px;color:#294868;text-decoration:none;font-size:14px;border-radius:7px}nav a:hover,nav a:focus{background:#e4f1ff;color:#0058a5}nav input{width:100%;padding:9px;border:1px solid #b9c9df;border-radius:6px}main{margin-left:270px;padding:28px;max-width:1250px}.hero{background:linear-gradient(115deg,#142d49,#236c91);color:white;border-radius:16px;padding:32px;margin-bottom:20px}.hero h1{font-size:clamp(28px,4vw,46px);line-height:1.15;margin:10px 0}.hero p{max-width:730px}section{background:white;border:1px solid #dae3ee;border-radius:13px;padding:26px;margin:20px 0}h2{color:#163a60;margin:0 0 15px;font-size:25px}h3{color:#176b76;margin-top:26px}h4{margin:15px 0 6px}p{margin:12px 0}aside{background:#edf6ff;border-left:4px solid #327fc3;padding:13px 16px;margin:16px 0;border-radius:5px}pre{white-space:pre;overflow:auto;margin:0;padding:16px;border-radius:8px;background:#142438;color:#dcecff;font:14px/1.65 Consolas,monospace}code{font-family:Consolas,monospace}p code{background:#e8eff6;padding:2px 4px;border-radius:4px}.code{position:relative;margin:12px 0}.code button{position:absolute;right:8px;top:8px;background:#284760;color:white;border:none}.output{background:#eef8f1;color:#185b38}.flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:20px 0;padding:16px;background:#eff5fb;border-radius:10px}.flow div{background:white;border:1px solid #83b5d0;border-radius:8px;padding:12px 15px;font-weight:650;color:#16496e;text-align:center}.arrow{color:#21789f;font-size:24px}.timeline{display:flex;gap:5px;align-items:stretch;margin:8px 0}.timeline>*{padding:10px;background:#e3edf7;border-radius:6px;text-align:center;flex:1}.timeline b{flex:0 0 76px}.timeline .wait{flex:2;background:#ffe9bf;color:#704900}.timeline .work{flex:2;background:#d7f3e4;color:#185f3b}table{width:100%;border-collapse:collapse;margin:15px 0}th,td{border:1px solid #d4dfeb;text-align:left;padding:10px}th{background:#e7f0f8}details{margin:10px 0;padding:12px;border:1px solid #dbe5ee;border-radius:8px}summary{cursor:pointer;font-weight:650;color:#214f73}.primary{background:#176b76;color:white;border:0}.question{border-bottom:1px solid #dce4eb;padding:12px 0}.question label{display:block;padding:3px}.good{color:#17683c}.bad{color:#a33b28}.navbuttons{display:flex;justify-content:space-between;margin-top:24px}.navbuttons a{color:#176b76;text-decoration:none;font-weight:650}footer{color:#53677c;text-align:center;padding:20px}body.dark{background:#101b29;color:#e2eaf4}body.dark section,body.dark nav{background:#192b40;border-color:#30465b}body.dark h2,body.dark h3,body.dark summary,body.dark nav a,body.dark a{color:#a0d5ff}body.dark aside,body.dark th,body.dark .flow,body.dark .flow div,body.dark .timeline>*{background:#243e54;color:#e1efff}body.dark td,body.dark th{border-color:#40586f}body.dark p code{background:#30465b}body.dark .output{background:#173b31;color:#b7f4d0}@media(max-width:800px){nav{position:static;width:auto;max-height:220px;border:0}main{margin:0;padding:12px}header{position:static}section{padding:16px}.timeline{flex-wrap:wrap}html{scroll-padding-top:0}}@media print{nav,header,button,.navbuttons{display:none}main{margin:0;padding:0}section{break-inside:avoid;border:0}pre{white-space:pre-wrap}}</style></head><body id="top"><header><b>ITTechGenie · C# / .NET 8</b><div><button onclick="toggleTheme()">Light / Dark</button> <button onclick="window.print()">Print</button></div></header><nav><strong>Course contents</strong><p><input type="search" placeholder="Search topics" oninput="filterNav(this.value)" aria-label="Search topics"></p><a href="#s0">01 · Getting started</a><a href="#s1">02 · Why files are needed</a><a href="#s2">03 · File paths and directories</a><a href="#s3">04 · File class: read, write and append</a><a href="#s4">05 · FileInfo and DirectoryInfo</a><a href="#s5">06 · Streams: StreamReader and StreamWriter</a><a href="#s6">07 · Binary files and FileStream</a><a href="#s7">08 · JSON serialization and deserialization</a><a href="#s8">09 · File errors and safe handling</a><a href="#s9">10 · Why asynchronous programming?</a><a href="#s10">11 · Task, async and await syntax</a><a href="#s11">12 · Async file operations</a><a href="#s12">13 · Sequential vs concurrent tasks</a><a href="#s13">14 · Cancellation and exception handling</a><a href="#s14">15 · CPU-bound vs I/O-bound work</a><a href="#s15">16 · Real-world project: employee report</a><a href="#s16">17 · Practice exercises and solutions</a><a href="#s17">18 · Knowledge check</a><a href="#s18">19 · Interview questions and recap</a></nav><main><div class="hero"><small>C# · .NET 8 · Hands-on learning</small><h1>File Handling and Async/Await</h1><p>Learn how to store and retrieve data, work with streams, serialize objects, and build responsive applications using asynchronous programming.</p><svg viewBox="0 0 650 125" width="100%" role="img" aria-label="An application sends data to a file and receives it asynchronously"><rect x="10" y="20" width="165" height="85" rx="12" fill="#fff"/><rect x="20" y="30" width="145" height="48" rx="4" fill="#b9e1fa"/><text x="92" y="60" text-anchor="middle" fill="#15344c" font-size="18">C# App</text><path d="M180 47 H340 M330 39 L340 47 L330 55 M340 85 H180 M190 77 L180 85 L190 93" fill="none" stroke="#b5edff" stroke-width="4"/><text x="260" y="29" fill="white" font-size="14" text-anchor="middle">Write / Read</text><rect x="350" y="12" width="92" height="102" rx="9" fill="#e7f5ff"/><path d="M370 42 H420 M370 59 H420 M370 76 H410" stroke="#267497" stroke-width="5"/><circle cx="550" cy="63" r="43" fill="#d6f4e6"/><path d="M550 35 V63 L571 74" stroke="#176b76" stroke-width="5" fill="none" stroke-linecap="round"/><text x="550" y="122" text-anchor="middle" fill="white" font-size="14">Async I/O</text></svg></div><section id="s0"><h2>01. Getting started</h2><p>File handling allows an application to keep information after it closes. Asynchronous programming allows an application to continue other useful work while waiting for operations such as file access or network requests.</p><h3>Set up a .NET 8 console application</h3><ol><li>Open Visual Studio 2022 → Create a new project → Console App (C#) → select .NET 8.</li><li>Alternatively, open a terminal in VS Code and run:</li></ol><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>dotnet new console -n FileAsyncLab -f net8.0
+cd FileAsyncLab
+dotnet run</code></pre></div><aside>Each example is an independent Program.cs. Replace its contents with one complete example at a time and run dotnet run. The examples use top-level statements and the .NET 8 console template. No extra NuGet packages are needed.</aside><div class="flow"><div>Write code</div><span class="arrow">→</span><div>Build</div><span class="arrow">→</span><div>Run</div><span class="arrow">→</span><div>Inspect output</div></div><div class="navbuttons"><span></span><a href="#s1">Next →</a></div></section><section id="s1"><h2>02. Why files are needed</h2><p>Variables store data in memory. When the process exits, that memory is lost. Files provide persistent storage for reports, logs, configuration and exported data.</p><div class="flow"><div>Application memory</div><span class="arrow">→</span><div>Write to disk</div><span class="arrow">→</span><div>📄 File</div><span class="arrow">→</span><div>Read later</div></div><table><tr><th>Memory</th><th>File</th></tr><tr><td>Temporary during execution</td><td>Persists after process exits</td></tr><tr><td>Variables and objects</td><td>Text, JSON, binary data</td></tr><tr><td>Fast access</td><td>I/O has latency and can fail</td></tr></table><p>Example: A shopping application stores an invoice as a file so that it can be opened tomorrow.</p><div class="navbuttons"><a href="#s0">← Previous</a><a href="#s2">Next →</a></div></section><section id="s2"><h2>03. File paths and directories</h2><p>A path identifies a file or directory. A relative path is resolved against the current working directory; an absolute path identifies a full location. Use <code>Path.Combine</code> for portable paths.</p><h3>Create a training directory</h3><p>Create a folder safely even if it already exists.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>string folder = Path.Combine(Environment.CurrentDirectory, &quot;LabData&quot;);
+Directory.CreateDirectory(folder);
+string path = Path.Combine(folder, &quot;notes.txt&quot;);
+Console.WriteLine(Path.GetFileName(path));
+Console.WriteLine(Directory.Exists(folder));</code></pre></div><h4>Expected output</h4><pre class="output">notes.txt
+True</pre><p>Directory.CreateDirectory creates missing parent directories. Path.Combine constructs the path; it does not create a file.</p><aside>Files created by these labs are under the current working directory unless a different path is specified. Use disposable practice files, not production data.</aside><div class="navbuttons"><a href="#s1">← Previous</a><a href="#s3">Next →</a></div></section><section id="s3"><h2>04. File class: read, write and append</h2><p>The static <code>File</code> class provides convenient operations for small files.</p><div class="flow"><div>WriteAllText</div><span class="arrow">→</span><div>📄 notes.txt</div><span class="arrow">→</span><div>ReadAllText</div></div><h3>Write and read text</h3><p>Write a message, then read it back.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>string path = &quot;notes.txt&quot;;
+File.WriteAllText(path, &quot;Welcome to C#&quot;);
+string text = File.ReadAllText(path);
+Console.WriteLine(text);</code></pre></div><h4>Expected output</h4><pre class="output">Welcome to C#</pre><p>WriteAllText creates or overwrites the file and closes it automatically. ReadAllText loads the entire content into a string.</p><h3>Append without deleting previous content</h3><p>Add a second line.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>string path = &quot;activity.txt&quot;;
+File.WriteAllText(path, &quot;Login&quot; + Environment.NewLine);
+File.AppendAllText(path, &quot;Logout&quot; + Environment.NewLine);
+Console.Write(File.ReadAllText(path));</code></pre></div><h4>Expected output</h4><pre class="output">Login
+Logout</pre><p>AppendAllText adds content at the end; unlike WriteAllText, it retains existing content.</p><h3>Read multiple lines</h3><p>Process an array of lines.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>File.WriteAllLines(&quot;marks.txt&quot;, new[] { &quot;85&quot;, &quot;90&quot;, &quot;75&quot; });
+foreach (string line in File.ReadLines(&quot;marks.txt&quot;))
+    Console.WriteLine(int.Parse(line));</code></pre></div><h4>Expected output</h4><pre class="output">85
+90
+75</pre><p>ReadLines enumerates lines lazily. ReadAllLines reads them all into an array. Use TryParse for untrusted input.</p><div class="navbuttons"><a href="#s2">← Previous</a><a href="#s4">Next →</a></div></section><section id="s4"><h2>05. FileInfo and DirectoryInfo</h2><h3>Inspect and copy a file</h3><p>Use instance-based APIs for metadata and operations.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>File.WriteAllText(&quot;source.txt&quot;, &quot;CSharp&quot;);
+FileInfo info = new FileInfo(&quot;source.txt&quot;);
+Console.WriteLine(info.Name);
+Console.WriteLine(info.Length);
+info.CopyTo(&quot;backup.txt&quot;, overwrite: true);
+DirectoryInfo folder = new DirectoryInfo(&quot;.&quot;);
+Console.WriteLine(folder.Exists);</code></pre></div><h4>Expected output</h4><pre class="output">source.txt
+6
+True</pre><p>FileInfo exposes metadata such as Length, Name and LastWriteTime. DirectoryInfo exposes directory metadata. Call Refresh when cached metadata may be stale.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>File.Move(&quot;backup.txt&quot;, &quot;renamed.txt&quot;, overwrite: true);
+File.Delete(&quot;renamed.txt&quot;);</code></pre></div><aside>Delete removes a file; do not run destructive commands against important paths. Directory.Delete(path, recursive: true) removes a tree.</aside><div class="navbuttons"><a href="#s3">← Previous</a><a href="#s5">Next →</a></div></section><section id="s5"><h2>06. Streams: StreamReader and StreamWriter</h2><p>A stream represents a sequence of bytes. Text reader/writer classes convert between bytes and characters. Use them for incremental processing.</p><div class="flow"><div>Text</div><span class="arrow">→</span><div>StreamWriter</div><span class="arrow">→</span><div>FileStream</div><span class="arrow">→</span><div>Disk</div></div><h3>Write and read line by line</h3><p>Use using to release file handles even if exceptions occur.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>using (StreamWriter writer = new StreamWriter(&quot;students.txt&quot;))
+{
+    writer.WriteLine(&quot;Anu,85&quot;);
+    writer.WriteLine(&quot;Ravi,90&quot;);
+}
+using (StreamReader reader = new StreamReader(&quot;students.txt&quot;))
+{
+    string? line;
+    while ((line = reader.ReadLine()) != null)
+        Console.WriteLine(line);
+}</code></pre></div><h4>Expected output</h4><pre class="output">Anu,85
+Ravi,90</pre><p>The writer is disposed before the reader opens the file. ReadLine returns null at end of file. using ensures Dispose runs.</p><div class="navbuttons"><a href="#s4">← Previous</a><a href="#s6">Next →</a></div></section><section id="s6"><h2>07. Binary files and FileStream</h2><h3>Write typed binary data</h3><p>BinaryWriter stores typed values, not human-readable text.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>using (var writer = new BinaryWriter(File.Create(&quot;product.bin&quot;)))
+{
+    writer.Write(101);
+    writer.Write(&quot;Pen&quot;);
+    writer.Write(25.50m);
+}
+using (var reader = new BinaryReader(File.OpenRead(&quot;product.bin&quot;)))
+{
+    Console.WriteLine(reader.ReadInt32());
+    Console.WriteLine(reader.ReadString());
+    Console.WriteLine(reader.ReadDecimal());
+}</code></pre></div><h4>Expected output</h4><pre class="output">101
+Pen
+25.50 (format may vary by culture)</pre><p>Read values in the same order and type used to write them. BinaryWriter and BinaryReader are useful for a known binary format.</p><h3>Copy bytes using FileStream</h3><p>Copy data without loading the whole file into memory.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>File.WriteAllText(&quot;original.txt&quot;, &quot;Sample&quot;);
+using (FileStream input = File.OpenRead(&quot;original.txt&quot;))
+using (FileStream output = File.Create(&quot;copy.txt&quot;))
+    input.CopyTo(output);
+Console.WriteLine(File.ReadAllText(&quot;copy.txt&quot;));</code></pre></div><h4>Expected output</h4><pre class="output">Sample</pre><p>CopyTo streams data through a buffer. File.Create overwrites an existing destination.</p><div class="navbuttons"><a href="#s5">← Previous</a><a href="#s7">Next →</a></div></section><section id="s7"><h2>08. JSON serialization and deserialization</h2><p>Serialization converts an object into a format that can be stored or transmitted. Deserialization reconstructs an object from that format.</p><div class="flow"><div>C# object</div><span class="arrow">→</span><div>Serialize</div><span class="arrow">→</span><div>📄 JSON</div><span class="arrow">→</span><div>Deserialize</div><span class="arrow">→</span><div>C# object</div></div><h3>Save an employee object</h3><p>Use System.Text.Json to persist structured data.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>using System.Text.Json;
+var employee = new Employee(101, &quot;Anu&quot;, 45000);
+string json = JsonSerializer.Serialize(employee,
+    new JsonSerializerOptions { WriteIndented = true });
+File.WriteAllText(&quot;employee.json&quot;, json);
+Employee? result = JsonSerializer.Deserialize&lt;Employee&gt;(
+    File.ReadAllText(&quot;employee.json&quot;));
+Console.WriteLine(result?.Name);
+record Employee(int Id, string Name, decimal Salary);</code></pre></div><h4>Expected output</h4><pre class="output">Anu</pre><p>Serialize creates JSON text. Deserialize maps it back to the record. JSON property names and types must be compatible.</p><aside>XML is another structured format (XmlSerializer). Avoid BinaryFormatter: it is unsafe and obsolete. BinaryReader/BinaryWriter are different APIs.</aside><div class="navbuttons"><a href="#s6">← Previous</a><a href="#s8">Next →</a></div></section><section id="s8"><h2>09. File errors and safe handling</h2><h3>Handle missing files and access errors</h3><p>A file may be missing, locked, inaccessible or on an unavailable drive.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>try
+{
+    Console.WriteLine(File.ReadAllText(&quot;missing-file-demo.txt&quot;));
+}
+catch (FileNotFoundException)
+{
+    Console.WriteLine(&quot;File not found.&quot;);
+}
+catch (UnauthorizedAccessException)
+{
+    Console.WriteLine(&quot;Access denied.&quot;);
+}
+catch (IOException ex)
+{
+    Console.WriteLine($&quot;I/O error: {ex.Message}&quot;);
+}</code></pre></div><h4>Expected output</h4><pre class="output">File not found. (if the file does not exist)</pre><p>Catch specific exceptions before broader ones. File.Exists can help with checks, but a file can disappear after the check; still handle failures.</p><aside>Validate paths from users, restrict access to an approved directory, and avoid logging secrets or sensitive data.</aside><div class="navbuttons"><a href="#s7">← Previous</a><a href="#s9">Next →</a></div></section><section id="s9"><h2>10. Why asynchronous programming?</h2><p>Reading a large file or waiting for an HTTP response can take time. Synchronous code waits before moving to the next statement. Asynchronous I/O allows the caller to resume other work while an incomplete operation is pending.</p><h3>Synchronous timeline</h3><div class="timeline"><b>Caller</b><span>Start</span><span class="wait">Blocked waiting for I/O</span><span>Continue</span></div><h3>Asynchronous timeline</h3><div class="timeline"><b>Caller</b><span>Start I/O</span><span class="work">Other work</span><span>Resume</span></div><div class="timeline"><b>I/O</b><span>Start</span><span class="wait">Operation pending</span><span>Done</span></div><aside>Async does not automatically mean a new thread, parallel execution or faster individual operations. It is especially useful for I/O-bound workloads and responsiveness.</aside><div class="navbuttons"><a href="#s8">← Previous</a><a href="#s10">Next →</a></div></section><section id="s10"><h2>11. Task, async and await syntax</h2><p><code>Task</code> represents an operation that may finish later. <code>Task&lt;T&gt;</code> represents an operation that returns a value. <code>async</code> permits await inside a method; <code>await</code> asynchronously waits for completion and retrieves the result.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>static async Task DoWorkAsync()
+{
+    await Task.Delay(1000);
+}
+static async Task&lt;int&gt; GetNumberAsync()
+{
+    await Task.Delay(1000);
+    return 42;
+}</code></pre></div><div class="flow"><div>Call async method</div><span class="arrow">→</span><div>Task returned when pending</div><span class="arrow">→</span><div>await task</div><span class="arrow">→</span><div>Resume with result</div></div><h3>First async example</h3><p>Observe the order of execution.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>Console.WriteLine(&quot;Start&quot;);
+Task job = WorkAsync();
+Console.WriteLine(&quot;Other work&quot;);
+await job;
+Console.WriteLine(&quot;Finish&quot;);
+
+static async Task WorkAsync()
+{
+    await Task.Delay(1000);
+    Console.WriteLine(&quot;Work completed&quot;);
+}</code></pre></div><h4>Expected output</h4><pre class="output">Start
+Other work
+Work completed
+Finish</pre><p>The async method starts synchronously until it reaches an incomplete await. Task.Delay simulates waiting without blocking a thread. The caller resumes after awaiting the task.</p><div class="navbuttons"><a href="#s9">← Previous</a><a href="#s11">Next →</a></div></section><section id="s11"><h2>12. Async file operations</h2><h3>Write and read a file asynchronously</h3><p>Use async APIs for I/O rather than manually creating threads.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>string path = &quot;async-notes.txt&quot;;
+await File.WriteAllTextAsync(path, &quot;Async file handling&quot;);
+string content = await File.ReadAllTextAsync(path);
+Console.WriteLine(content);</code></pre></div><h4>Expected output</h4><pre class="output">Async file handling</pre><p>Await the write before reading, ensuring the write has completed. Exceptions are observed when awaiting the task.</p><h3>Read a file incrementally</h3><p>Use ReadLineAsync with a StreamReader.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>await File.WriteAllLinesAsync(&quot;async-lines.txt&quot;, new[] { &quot;One&quot;, &quot;Two&quot; });
+using var reader = new StreamReader(&quot;async-lines.txt&quot;);
+string? line;
+while ((line = await reader.ReadLineAsync()) != null)
+    Console.WriteLine(line);</code></pre></div><h4>Expected output</h4><pre class="output">One
+Two</pre><p>StreamReader supports asynchronous reads. This avoids loading all lines at once. Its synchronous Dispose is sufficient here.</p><h3>Asynchronous stream copy</h3><p>Enable asynchronous file access and dispose streams.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>await File.WriteAllTextAsync(&quot;input.txt&quot;, &quot;File copy&quot;);
+await using (var input = new FileStream(&quot;input.txt&quot;, FileMode.Open,
+    FileAccess.Read, FileShare.Read, 4096, useAsync: true))
+await using (var output = new FileStream(&quot;output.txt&quot;, FileMode.Create,
+    FileAccess.Write, FileShare.None, 4096, useAsync: true))
+{
+    await input.CopyToAsync(output);
+}
+Console.WriteLine(await File.ReadAllTextAsync(&quot;output.txt&quot;));</code></pre></div><h4>Expected output</h4><pre class="output">File copy</pre><p>await using calls DisposeAsync; the destination is closed before reading it.</p><div class="navbuttons"><a href="#s10">← Previous</a><a href="#s12">Next →</a></div></section><section id="s12"><h2>13. Sequential vs concurrent tasks</h2><h3>Run independent operations concurrently</h3><p>Start both tasks before waiting for them.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>using System.Diagnostics;
+var watch = Stopwatch.StartNew();
+Task&lt;string&gt; first = GetAsync(&quot;Report A&quot;);
+Task&lt;string&gt; second = GetAsync(&quot;Report B&quot;);
+string[] results = await Task.WhenAll(first, second);
+Console.WriteLine(string.Join(&quot;, &quot;, results));
+Console.WriteLine($&quot;Elapsed: {watch.ElapsedMilliseconds} ms&quot;);
+
+static async Task&lt;string&gt; GetAsync(string name)
+{
+    await Task.Delay(1000);
+    return name;
+}</code></pre></div><h4>Expected output</h4><pre class="output">Report A, Report B
+Elapsed: approximately 1000 ms</pre><p>WhenAll waits for every task. Independent waits overlap. Awaiting each operation before starting the next would take approximately 2000 ms. Timings vary.</p><div class="flow"><div>Start A + B</div><span class="arrow">→</span><div>Both pending</div><span class="arrow">→</span><div>WhenAll</div><span class="arrow">→</span><div>Both complete</div></div><aside>Do not concurrently write to the same file without coordination. Task.WhenAll is not a guarantee of CPU parallelism. Limit concurrency for large workloads.</aside><div class="navbuttons"><a href="#s11">← Previous</a><a href="#s13">Next →</a></div></section><section id="s13"><h2>14. Cancellation and exception handling</h2><h3>Cancel a pending task</h3><p>Cancellation is cooperative: pass a token to methods that support it.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>using var cts = new CancellationTokenSource();
+cts.CancelAfter(500);
+try
+{
+    await Task.Delay(3000, cts.Token);
+    Console.WriteLine(&quot;Completed&quot;);
+}
+catch (OperationCanceledException)
+{
+    Console.WriteLine(&quot;Operation cancelled&quot;);
+}</code></pre></div><h4>Expected output</h4><pre class="output">Operation cancelled</pre><p>The token signals cancellation. Await observes the cancellation exception. Real operations can finish before cancellation arrives.</p><h3>Catch asynchronous file errors</h3><p>Await inside try/catch.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>try
+{
+    string data = await File.ReadAllTextAsync(&quot;missing-async-demo.txt&quot;);
+    Console.WriteLine(data);
+}
+catch (IOException ex)
+{
+    Console.WriteLine($&quot;Read failed: {ex.GetType().Name}&quot;);
+}</code></pre></div><h4>Expected output</h4><pre class="output">Read failed: FileNotFoundException (if absent)</pre><p>Exceptions from faulted tasks surface at await. Do not discard tasks when you need to observe completion or errors.</p><div class="navbuttons"><a href="#s12">← Previous</a><a href="#s14">Next →</a></div></section><section id="s14"><h2>15. CPU-bound vs I/O-bound work</h2><table><tr><th>Work</th><th>Recommended approach</th></tr><tr><td>File/network/database waiting</td><td>Use native async APIs and await</td></tr><tr><td>Expensive CPU computation in a UI app</td><td>Consider Task.Run to offload work</td></tr><tr><td>Independent operations</td><td>Task.WhenAll, with appropriate concurrency limits</td></tr></table><h3>Offload a CPU computation</h3><p>Demonstrate Task.Run with a calculation.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>long result = await Task.Run(() =&gt;
+{
+    long sum = 0;
+    for (int i = 1; i &lt;= 1000000; i++) sum += i;
+    return sum;
+});
+Console.WriteLine(result);</code></pre></div><h4>Expected output</h4><pre class="output">500000500000</pre><p>Task.Run schedules work on the thread pool. It does not reduce CPU cost and is not a replacement for asynchronous I/O. In ASP.NET Core, avoid unnecessary Task.Run for ordinary request processing.</p><aside>Prefer await over .Result or .Wait(), which block threads and can cause deadlocks in some synchronization contexts. Use async void only for event handlers that require void.</aside><div class="navbuttons"><a href="#s13">← Previous</a><a href="#s15">Next →</a></div></section><section id="s15"><h2>16. Real-world project: employee report</h2><p>A reporting application saves employee records as JSON, reloads them asynchronously, and produces a text summary. It demonstrates persistent storage, serialization, LINQ and async/await together.</p><div class="flow"><div>Employee list</div><span class="arrow">→</span><div>JSON file</div><span class="arrow">→</span><div>Async read</div><span class="arrow">→</span><div>Calculate summary</div><span class="arrow">→</span><div>Report file</div></div><h3>Complete employee report application</h3><p>Replace Program.cs with this complete example.</p><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>using System.Text.Json;
+string folder = Path.Combine(Environment.CurrentDirectory, &quot;Reports&quot;);
+Directory.CreateDirectory(folder);
+string dataPath = Path.Combine(folder, &quot;employees.json&quot;);
+string reportPath = Path.Combine(folder, &quot;summary.txt&quot;);
+var employees = new List&lt;Employee&gt;
+{
+    new(1, &quot;Anu&quot;, 45000), new(2, &quot;Ravi&quot;, 55000), new(3, &quot;Meera&quot;, 50000)
+};
+try
+{
+    await SaveAsync(dataPath, employees);
+    var loaded = await LoadAsync(dataPath);
+    string report = $&quot;Employees: {loaded.Count}\n&quot; +
+                    $&quot;Total salary: {loaded.Sum(e =&gt; e.Salary):F2}&quot;;
+    await File.WriteAllTextAsync(reportPath, report);
+    Console.WriteLine(await File.ReadAllTextAsync(reportPath));
+}
+catch (IOException ex)
+{
+    Console.WriteLine($&quot;File error: {ex.Message}&quot;);
+}
+catch (JsonException ex)
+{
+    Console.WriteLine($&quot;Invalid JSON: {ex.Message}&quot;);
+}
+static async Task SaveAsync(string path, List&lt;Employee&gt; employees)
+{
+    await using var stream = File.Create(path);
+    await JsonSerializer.SerializeAsync(stream, employees,
+        new JsonSerializerOptions { WriteIndented = true });
+}
+static async Task&lt;List&lt;Employee&gt;&gt; LoadAsync(string path)
+{
+    await using var stream = File.OpenRead(path);
+    return await JsonSerializer.DeserializeAsync&lt;List&lt;Employee&gt;&gt;(stream)
+           ?? new List&lt;Employee&gt;();
+}
+record Employee(int Id, string Name, decimal Salary);</code></pre></div><h4>Expected output</h4><pre class="output">Employees: 3
+Total salary: 150000.00 (culture dependent)</pre><p>SaveAsync serializes directly into a stream; LoadAsync reads it back. Each operation is awaited in dependency order. The report is written only after the data has been loaded. For production, add access controls, cancellation, validation and atomic replacement where needed.</p><div class="navbuttons"><a href="#s14">← Previous</a><a href="#s16">Next →</a></div></section><section id="s16"><h2>17. Practice exercises and solutions</h2><p>Try each task independently before opening the solution.</p><details><summary>Exercise 1 — Save a name</summary><p>Write a name to a file and display it.</p><h4>Solution</h4><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>File.WriteAllText(&quot;name.txt&quot;, &quot;Anu&quot;);
+Console.WriteLine(File.ReadAllText(&quot;name.txt&quot;));</code></pre></div></details><details><summary>Exercise 2 — Count lines</summary><p>Create a file with three lines and count them.</p><h4>Solution</h4><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>File.WriteAllLines(&quot;items.txt&quot;, new[] { &quot;Pen&quot;, &quot;Book&quot;, &quot;Bag&quot; });
+Console.WriteLine(File.ReadLines(&quot;items.txt&quot;).Count());</code></pre></div></details><details><summary>Exercise 3 — Async sum</summary><p>Create an async method returning the sum of two numbers.</p><h4>Solution</h4><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>Console.WriteLine(await AddAsync(10, 20));
+static async Task&lt;int&gt; AddAsync(int a, int b)
+{
+    await Task.Delay(100);
+    return a + b;
+}</code></pre></div></details><details><summary>Exercise 4 — Read two files</summary><p>Read two independent files concurrently.</p><h4>Solution</h4><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>await File.WriteAllTextAsync(&quot;a.txt&quot;, &quot;A&quot;);
+await File.WriteAllTextAsync(&quot;b.txt&quot;, &quot;B&quot;);
+var values = await Task.WhenAll(File.ReadAllTextAsync(&quot;a.txt&quot;),
+    File.ReadAllTextAsync(&quot;b.txt&quot;));
+Console.WriteLine(string.Join(&quot; &quot;, values));</code></pre></div></details><details><summary>Exercise 5 — Async log</summary><p>Append a timestamped message to a file.</p><h4>Solution</h4><div class="code"><button onclick="copyCode(this)">Copy</button><pre><code>await File.AppendAllTextAsync(&quot;app.log&quot;,
+    $&quot;{DateTimeOffset.Now:O} Application started{Environment.NewLine}&quot;);
+Console.WriteLine(&quot;Saved&quot;);</code></pre></div></details><div class="navbuttons"><a href="#s15">← Previous</a><a href="#s17">Next →</a></div></section><section id="s17"><h2>18. Knowledge check</h2><p>Choose an answer and receive immediate feedback.</p><div id="quiz"></div><button class="primary" onclick="grade()">Check answers</button><p id="result" aria-live="polite"></p><div class="navbuttons"><a href="#s16">← Previous</a><a href="#s18">Next →</a></div></section><section id="s18"><h2>19. Interview questions and recap</h2><details><summary>What is File vs FileInfo?</summary><p>File provides static convenience methods. FileInfo represents a file and exposes instance methods and metadata.</p></details><details><summary>Why use using?</summary><p>It ensures resources are disposed when leaving the scope, including when an exception occurs.</p></details><details><summary>What is the difference between WriteAllText and AppendAllText?</summary><p>WriteAllText replaces existing content; AppendAllText adds to it.</p></details><details><summary>Why use serialization?</summary><p>To persist or exchange structured objects in a defined format such as JSON.</p></details><details><summary>What does async mean?</summary><p>It enables await in a method; it does not automatically create a thread.</p></details><details><summary>What does await do?</summary><p>It observes completion and obtains the result or exception. While a task is incomplete, an async method can return control to its caller.</p></details><details><summary>Task vs Task<T>?</summary><p>Task represents completion; Task<T> also provides a result.</p></details><details><summary>Task.Delay vs Thread.Sleep?</summary><p>Task.Delay returns a task without blocking a thread for the delay. Thread.Sleep blocks the calling thread.</p></details><details><summary>When should Task.WhenAll be used?</summary><p>When multiple independent tasks have been started and all results or completions are needed.</p></details><details><summary>What is cancellation?</summary><p>A cooperative request to stop; the operation must observe the token.</p></details><details><summary>How do you handle async exceptions?</summary><p>Await the task inside a try/catch block.</p></details><details><summary>Why avoid async void?</summary><p>The caller cannot await it or observe its completion through a Task; reserve it for appropriate event handlers.</p></details><h3>Further reading</h3><p><a href="https://learn.microsoft.com/en-us/dotnet/standard/io/">Microsoft: File and stream I/O</a> · <a href="https://learn.microsoft.com/en-us/dotnet/csharp/asynchronous-programming/">Microsoft: Asynchronous programming</a> · <a href="https://learn.microsoft.com/en-us/dotnet/standard/serialization/system-text-json/overview">Microsoft: System.Text.Json</a></p><div class="navbuttons"><a href="#s17">← Previous</a><a href="#top">↑ Top</a></div></section><footer>C# File Handling and Async/Await · Training laboratory</footer></main><script>function copyCode(btn){const text=btn.nextElementSibling.innerText;function fallback(){const a=document.createElement('textarea');a.value=text;document.body.appendChild(a);a.select();document.execCommand('copy');a.remove()}if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).catch(fallback)}else{fallback()}btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1200)}function filterNav(v){document.querySelectorAll('nav a').forEach(a=>a.hidden=!a.textContent.toLowerCase().includes(v.toLowerCase()))}function toggleTheme(){document.body.classList.toggle('dark');try{localStorage.setItem('fileasync-theme',document.body.classList.contains('dark')?'dark':'light')}catch(e){}}try{if(localStorage.getItem('fileasync-theme')==='dark')document.body.classList.add('dark')}catch(e){}const questions=[["Which method overwrites a text file?", ["AppendAllText", "WriteAllText", "ReadAllText"], 1], ["Which API releases a file handle automatically at scope exit?", ["using", "await alone", "Path.Combine"], 0], ["Which type returns an asynchronous integer?", ["Task", "Task<int>", "void"], 1], ["Does async always create a new thread?", ["Yes", "No"], 1], ["Which method waits for all started tasks?", ["Task.WhenAll", "Thread.Sleep", "File.Exists"], 0], ["Which format does System.Text.Json handle?", ["JSON", "XML", "ZIP"], 0], ["Which is better for huge text files?", ["ReadAllText always", "Incremental StreamReader", "Convert.ToInt32"], 1], ["How should cancellation be requested?", ["Kill the process", "CancellationToken", "Ignore the task"], 1], ["Which statement is best for async I/O?", ["Use native async APIs", "Always use Task.Run", "Always use .Result"], 0], ["When does an awaited task exception surface?", ["At await", "Never", "Only on reboot"], 0]];const quiz=document.getElementById('quiz');questions.forEach(([q,opts,answer],i)=>{const div=document.createElement('div');div.className='question';const title=document.createElement('strong');title.textContent=(i+1)+'. '+q;div.append(title);opts.forEach((opt,j)=>{const l=document.createElement('label');const input=document.createElement('input');input.type='radio';input.name='q'+i;input.value=j;l.append(input,document.createTextNode(' '+opt));div.append(l)});const feedback=document.createElement('p');feedback.id='feedback'+i;div.append(feedback);quiz.append(div)});function grade(){let score=0;questions.forEach(([q,opts,answer],i)=>{const selected=document.querySelector('input[name=q'+i+']:checked');const correct=selected&&Number(selected.value)===answer;if(correct)score++;const f=document.getElementById('feedback'+i);f.className=correct?'good':'bad';f.textContent=correct?'Correct!':'Correct answer: '+opts[answer]});document.getElementById('result').textContent='Score: '+score+' / '+questions.length}</script></body></html>
